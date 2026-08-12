@@ -6,19 +6,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效</title>
-  <meta name="description" content="無廣告無廣告無廣告無廣告無廣告無廣告無廣告免費線上虛擬樂器 支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
-  
+  <meta name="description" content="無廣告免費線上虛擬樂器，支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
+  <meta name="keywords" content="線上樂器, 虛擬鋼琴, 免費木琴, 網頁彈奏, 線上彈奏, 無障礙樂器, 線上音樂彈奏工具, 免費虛擬樂器" />
+  <link rel="canonical" href="https://jenchu-begdev.github.io/first-web-electric-music/" />
+
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://jenchu-begdev.github.io/first-web-electric-music/" />
   <meta property="og:title" content="免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效" />
-  <meta property="og:description" content="無廣告無廣告無廣告無廣告無廣告無廣告免費線上虛擬樂器 支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
-  <meta property="og:image" content="https://example.com/og-image.jpg" />
-  
+  <meta property="og:description" content="無廣告免費線上虛擬樂器，支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
+  <meta property="og:image" content="https://jenchu-begdev.github.io/first-web-electric-music/og-image.jpg" />
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://jenchu-begdev.github.io/first-web-electric-music/" />
   <meta name="twitter:title" content="免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效" />
-  <meta name="twitter:description" content="無廣告無廣告無廣告無廣告無廣告無廣告免費線上虛擬樂器 支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
-  <meta name="twitter:image" content="https://example.com/og-image.jpg" />
+  <meta name="twitter:description" content="無廣告免費線上虛擬樂器，支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。" />
+  <meta name="twitter:image" content="https://jenchu-begdev.github.io/first-web-electric-music/og-image.jpg" />
+
+  <!-- Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "免費線上虛擬樂器",
+    "url": "https://jenchu-begdev.github.io/first-web-electric-music/",
+    "description": "無廣告免費線上虛擬樂器，支援鍵盤彈奏，擁有鋼琴、鐵琴、木琴等音效，可調整調號與八度。",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "All",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "TWD"
+    }
+  }
+  </script>
   <style>
     /* ===== Google Fonts ===== */
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&display=swap');
@@ -143,6 +165,27 @@
     }
     .subtitle {
       font-size: .9rem; color: var(--text-mid); margin-top: .3rem;
+    }
+    .subtitle a {
+      color: var(--accent2);
+      text-decoration: underline;
+      font-weight: 600;
+      transition: var(--trans);
+    }
+    .subtitle a:hover, .subtitle a:focus {
+      color: var(--text-hi);
+    }
+
+    .mobile-notice {
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--accent2);
+      padding: 0.8rem 1.2rem;
+      border-radius: var(--radius-md);
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-size: 0.95rem;
+      font-weight: 600;
     }
 
     /* ===== Panel card ===== */
@@ -844,7 +887,15 @@
     <div class="blob blob-3"></div>
   </div>
 
-  <div class="page" id="main-content">
+  <div class="page">
+
+    <!-- Device Notice -->
+    <div id="desktop-notice" class="sr-only">
+      歡迎使用免費線上虛擬樂器，請將nvda切換為輸入模式再進行彈奏。
+    </div>
+    <div id="mobile-notice" class="mobile-notice" style="display: none;" role="note">
+      歡迎使用免費線上虛擬樂器，請點選下方案件進行彈奏。
+    </div>
 
     <!-- Header -->
     <header>
@@ -852,7 +903,7 @@
         <div class="logo-icon" aria-hidden="true">🎹</div>
         <h1>免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效</h1>
       </div>
-      <p class="subtitle">免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效 — 無障礙線上樂器 · 鍵盤 1–8 彈奏音階</p>
+      <p class="subtitle">免費線上虛擬樂器 支援鋼琴、鐵琴、木琴等音效 — 無障礙線上樂器 · 鍵盤 `–Home 彈奏音階，詳情請參考<a href="#instructions">操作說明</a>。</p>
     </header>
 
     <!-- ===== Controls Panel ===== -->
@@ -967,6 +1018,7 @@
               class="bpm-input-field" 
               value="90" 
               min="1"
+              max="3000"
               placeholder="BPM"
               aria-label="手動設定每分鐘拍數"
             />
@@ -993,11 +1045,11 @@
                   type="range" 
                   id="bpm-slider" 
                   min="1" 
-                  max="1000" 
+                  max="3000" 
                   value="90" 
                   step="1"
                   aria-valuemin="1"
-                  aria-valuemax="1000"
+                  aria-valuemax="3000"
                   aria-valuenow="90"
                   aria-valuetext="90 BPM"
                 />
@@ -1134,22 +1186,22 @@
       </form>
     </section>
 
-    <!-- ===== Play Zone Panel ===== -->
-    <section class="panel keys-panel" aria-labelledby="play-zone-heading">
+    <!-- ===== Play Zone Panel (Main Content Landmark) ===== -->
+    <main class="panel keys-panel" id="main-content" aria-labelledby="play-zone-heading">
       <h2 class="panel-title" id="play-zone-heading">彈奏區域</h2>
       <form autocomplete="off" onsubmit="return false;">
         <div class="play-controls" style="margin-bottom: 1.5rem;">
           <button
-            class="btn btn-primary"
+            class="btn btn-primary active"
             id="play-btn"
             type="button"
             autocomplete="off"
-            aria-label="開始彈奏"
-            aria-pressed="false"
-            title="開始彈奏 (快速鍵 Space 或 Enter)"
+            aria-label="停止彈奏（快速鍵：Space 或 Enter）"
+            aria-pressed="true"
+            title="停止彈奏 (快速鍵 Space 或 Enter)"
           >
-            <span aria-hidden="true">▶</span>
-            <span id="play-btn-text">開始彈奏</span>
+            <span aria-hidden="true">⏹</span>
+            <span id="play-btn-text">停止彈奏</span>
           </button>
 
           <!-- 播放/暫停節拍器按鈕 -->
@@ -1167,8 +1219,8 @@
           </button>
 
           <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
-            <div class="status-dot" id="status-dot"></div>
-            <span id="status-text">待機中 — 點擊「開始彈奏」或按 <kbd class="kbd-hint">Space</kbd> 開始</span>
+            <div class="status-dot playing" id="status-dot"></div>
+            <span id="status-text">彈奏中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續</span>
           </div>
         </div>
 
@@ -1194,10 +1246,10 @@
           <!-- Extra chromatic keys generated by JS -->
         </div>
       </form>
-    </section>
+    </main>
 
     <!-- ===== Instructions Panel ===== -->
-    <section class="panel" aria-labelledby="help-heading">
+    <section class="panel" id="instructions" aria-labelledby="help-heading">
       <div class="panel-title" id="help-heading">📖 操作說明</div>
       <div class="info-grid">
         <div class="info-card" style="grid-column: 1 / -1;">
@@ -2582,7 +2634,7 @@
     }
 
     function updateMetroBpm(value) {
-      const cleanValue = Math.max(1, parseInt(value) || 90);
+      const cleanValue = Math.max(1, Math.min(3000, parseInt(value) || 90));
       metroState.bpm = cleanValue;
 
       if (cleanValue > parseInt(metroBpmSlider.max)) {
@@ -2655,7 +2707,7 @@
         }
         const avgInterval = totalIntervals / (metroTapTimes.length - 1);
         const newBpm = Math.round(60000 / avgInterval);
-        updateMetroBpm(Math.max(1, Math.min(1000, newBpm)));
+        updateMetroBpm(Math.max(1, Math.min(3000, newBpm)));
       }
     }
 
@@ -2743,12 +2795,31 @@
       metroAnnounce(metroState.useAccent ? "已開啟第一拍重音" : "已關閉第一拍重音", "polite");
     });
 
+    /* Device notice initialization */
+    function initDeviceNotice() {
+      const desktopNotice = document.getElementById('desktop-notice');
+      const mobileNotice = document.getElementById('mobile-notice');
+      if (!desktopNotice || !mobileNotice) return;
+
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+        || (('ontouchstart' in window || navigator.maxTouchPoints > 0) && window.innerWidth <= 768);
+
+      if (isMobile) {
+        desktopNotice.style.display = 'none';
+        mobileNotice.style.display = 'block';
+      } else {
+        desktopNotice.style.display = '';
+        mobileNotice.style.display = 'none';
+      }
+    }
+
     /* ============================================================
        INIT
     ============================================================ */
     buildKeyButtons();
     initTouchHandlers();   // register container-level touch listeners
-    setPlaying(false); // initialize UI state
+    initDeviceNotice();
+    setPlaying(true); // initialize UI state to default ON
 
     // 初始化節拍器
     setupMetroVisualIndicators();
