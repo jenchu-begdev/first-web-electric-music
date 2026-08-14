@@ -106,6 +106,7 @@
       margin: -1px;
       overflow: hidden;
       clip: rect(0, 0, 0, 0);
+      clip-path: inset(50%);
       white-space: nowrap;
       border: 0;
     }
@@ -374,69 +375,133 @@
       margin-bottom: 1.4rem; text-align: center;
     }
 
+    /* ===== Piano Container & Scroll Wrapper ===== */
+    .piano-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0.5rem 0 1rem;
+      -webkit-overflow-scrolling: touch;
+      border-radius: var(--radius-md);
+    }
+
+    .piano-wrapper {
+      position: relative;
+      width: 100%;
+      min-width: 640px;
+      max-width: 840px;
+      margin: 0 auto;
+      height: 220px;
+      user-select: none;
+      -webkit-user-select: none;
+      background: #090915;
+      border-radius: 0 0 12px 12px;
+      box-shadow: inset 0 6px 12px rgba(0,0,0,0.8), 0 12px 32px rgba(0,0,0,0.5);
+      border-top: 6px solid #1e1e38;
+    }
+
+    /* ===== White Keys (Primary Scale Keys) ===== */
     .keys-row {
-      display: flex; gap: .7rem; justify-content: center; flex-wrap: wrap;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      gap: 2px;
+      padding: 0 4px 4px 4px;
+      box-sizing: border-box;
     }
 
     .key-btn {
       position: relative;
-      width: 88px; min-height: 130px;
-      background: linear-gradient(180deg, var(--key-idle) 0%, #131330 100%);
-      border: 1px solid rgba(255,255,255,.1);
-      border-radius: var(--radius-md);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding-bottom: 1rem;
+      flex: 1 1 0%;
+      height: 100%;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 75%, #cbd5e1 100%);
+      border: 1px solid #94a3b8;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 0.85rem;
       cursor: pointer;
       font-family: inherit;
-      color: var(--text-hi);
-      transition: var(--trans);
-      box-shadow: 0 4px 16px rgba(0,0,0,.4);
+      color: #0f172a;
+      transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+      box-shadow: 0 5px 8px rgba(0,0,0,0.25), inset 0 -5px 0 #94a3b8;
       user-select: none;
       -webkit-user-select: none;
+      z-index: 1;
     }
+
     .key-btn:hover {
-      background: linear-gradient(180deg, var(--key-hover) 0%, #1a1a50 100%);
-      border-color: var(--accent1);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(0,0,0,.5);
+      background: linear-gradient(180deg, #ffffff 0%, #e2e8f0 75%, #cbd5e1 100%);
+      box-shadow: 0 6px 12px rgba(0,0,0,0.35), inset 0 -5px 0 var(--accent1);
     }
+
     .key-btn:focus-visible {
-      outline: 2.5px solid var(--accent2);
-      outline-offset: 3px;
+      outline: 3px solid var(--accent2);
+      outline-offset: -3px;
+      z-index: 12;
     }
+
     .key-btn.pressed {
-      background: linear-gradient(180deg, var(--key-active) 0%, #4c1d95 100%);
-      border-color: var(--accent1);
-      transform: translateY(2px) scale(.97);
-      box-shadow: 0 2px 24px var(--key-glow), inset 0 2px 8px rgba(0,0,0,.3);
+      background: linear-gradient(180deg, #ddd6fe 0%, #a78bfa 75%, #7c3aed 100%);
+      color: #ffffff;
+      transform: translateY(3px);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.4), inset 0 2px 6px rgba(0,0,0,0.3);
     }
 
     .key-note-name {
-      font-size: 1.05rem; font-weight: 700;
-      color: var(--text-hi);
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #0f172a;
       line-height: 1;
     }
-    .key-solfege {
-      font-size: .72rem; font-weight: 400; color: var(--text-mid);
-      margin-top: .2rem;
+    .key-btn.pressed .key-note-name {
+      color: #ffffff;
     }
+
+    .key-solfege {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 0.25rem;
+    }
+    .key-btn.pressed .key-solfege {
+      color: #f1f5f9;
+    }
+
     .key-number {
       position: absolute;
-      top: .7rem; left: 50%; transform: translateX(-50%);
-      background: rgba(255,255,255,.08);
+      top: 0.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.08);
       border-radius: 5px;
-      width: 28px; height: 28px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .8rem; font-weight: 700; color: var(--text-mid);
+      width: 26px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #334155;
     }
-    .key-btn.pressed .key-number { color: rgba(255,255,255,.6); }
+    .key-btn.pressed .key-number {
+      background: rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+    }
 
     /* Waveform indicator on key */
     .key-wave {
       position: absolute;
-      top: 50%; left: 50%; transform: translate(-50%,-50%);
-      display: flex; gap: 3px; align-items: center;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      display: flex;
+      gap: 3px;
+      align-items: center;
       opacity: 0;
       transition: opacity .15s;
       pointer-events: none;
@@ -444,7 +509,7 @@
     .key-btn.pressed .key-wave { opacity: 1; }
     .key-wave span {
       display: block; width: 3px; border-radius: 2px;
-      background: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.8);
       animation: wave-bar .6s ease-in-out infinite alternate;
     }
     .key-wave span:nth-child(1) { height: 10px; animation-delay: 0s; }
@@ -457,66 +522,127 @@
       to   { transform: scaleY(1.3); }
     }
 
-    /* ===== Chromatic / half-step extra keys ===== */
+    /* ===== Chromatic Black Keys ===== */
     .keys-row-extra {
-      display: flex; gap: .5rem; justify-content: center; flex-wrap: wrap;
-      margin-top: .55rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 130px;
+      pointer-events: none;
+      z-index: 10;
+      box-sizing: border-box;
+      padding: 0 4px;
     }
+
     .extra-row-label {
-      width: 100%; text-align: center;
-      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--accent2);
-      margin-bottom: .2rem; opacity: .7;
+      display: none;
     }
+
     .key-btn-extra {
-      position: relative;
-      width: 82px; min-height: 108px;
-      background: linear-gradient(180deg, #0d0d22 0%, #06060f 100%);
-      border: 1px solid rgba(6,182,212,.2);
-      border-radius: var(--radius-md);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: flex-end;
-      padding-bottom: .85rem;
+      position: absolute;
+      top: 0;
+      width: calc(100% / 15 * 0.62);
+      height: 130px;
+      background: linear-gradient(180deg, #2d3748 0%, #1a202c 70%, #0f172a 100%);
+      border: 1px solid rgba(6, 182, 212, 0.4);
+      border-top: none;
+      border-radius: 0 0 6px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 0.65rem;
       cursor: pointer;
       font-family: inherit;
       color: var(--text-hi);
-      transition: var(--trans);
-      box-shadow: 0 4px 16px rgba(0,0,0,.55);
+      transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.7), inset 0 -3px 0 var(--accent2);
       user-select: none;
       -webkit-user-select: none;
+      pointer-events: auto;
+      z-index: 10;
     }
+
     .key-btn-extra:hover {
-      background: linear-gradient(180deg, #1c1040 0%, #100929 100%);
+      background: linear-gradient(180deg, #374151 0%, #1f2937 70%, #111827 100%);
       border-color: var(--accent2);
-      transform: translateY(-3px);
-      box-shadow: 0 8px 28px rgba(0,0,0,.6), 0 0 14px var(--glow-c);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.8), 0 0 12px var(--glow-c);
     }
+
     .key-btn-extra:focus-visible {
-      outline: 2.5px solid var(--accent2);
-      outline-offset: 3px;
+      outline: 3px solid var(--accent2);
+      outline-offset: 2px;
+      z-index: 20;
     }
+
     .key-btn-extra.pressed {
-      background: linear-gradient(180deg, #0e7490 0%, #0a5a72 100%);
+      background: linear-gradient(180deg, #0e7490 0%, #0891b2 75%, #06b6d4 100%);
       border-color: var(--accent2);
-      transform: translateY(2px) scale(.97);
-      box-shadow: 0 2px 24px var(--glow-c), inset 0 2px 8px rgba(0,0,0,.3);
+      transform: translateY(3px);
+      box-shadow: 0 2px 6px rgba(6,182,212,0.6), inset 0 2px 4px rgba(0,0,0,0.5);
     }
+
     .key-btn-extra .key-number {
       position: absolute;
-      top: .6rem; left: 50%; transform: translateX(-50%);
-      background: rgba(6,182,212,.12);
-      border-radius: 5px;
-      width: 28px; height: 24px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: .78rem; font-weight: 700; color: var(--accent2);
+      top: 0.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(6,182,212,.18);
+      border-radius: 4px;
+      width: 22px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent2);
     }
-    .key-btn-extra.pressed .key-number { color: #fff; }
-    .key-btn-extra .key-solfege { color: var(--accent2); font-size: .68rem; }
-    .key-btn-extra .key-wave { display: flex; }
-    @media (max-width: 600px) {
-      .key-btn-extra { width: 62px; min-height: 86px; }
-      .keys-row-extra { gap: .35rem; }
+
+    .key-btn-extra.pressed .key-number {
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
     }
+
+    .key-btn-extra .key-note-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #67e8f9;
+      line-height: 1;
+    }
+
+    .key-btn-extra.pressed .key-note-name {
+      color: #ffffff;
+    }
+
+    .key-btn-extra .key-solfege {
+      color: #a5f3fc;
+      font-size: 0.64rem;
+      font-weight: 500;
+      margin-top: 0.2rem;
+      white-space: nowrap;
+    }
+
+    .key-btn-extra.pressed .key-solfege {
+      color: #e0f2fe;
+    }
+
+    /* Black key positioning: each key sits centered over the gap between white keys.
+       With 15 white keys, gap: 2px, and padding: 0 4px, the effective total width
+       per white key slot = (100% - 8px) / 15 + 2px/15 ≈ 100%/15.
+       Black key left = (index_of_right_white_key) * (100%/15) - (black_key_width/2)
+       Black key width = 100%/15 * 0.62, so half = 100%/15 * 0.31 ≈ 2.0667%             */
+    .key-btn-extra[data-keychar="q"] { left: calc(100% / 15 * 2  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="w"] { left: calc(100% / 15 * 3  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="r"] { left: calc(100% / 15 * 5  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="t"] { left: calc(100% / 15 * 6  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="y"] { left: calc(100% / 15 * 7  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="i"] { left: calc(100% / 15 * 9  - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="o"] { left: calc(100% / 15 * 10 - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="["] { left: calc(100% / 15 * 12 - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="]"] { left: calc(100% / 15 * 13 - 100% / 15 * 0.31); }
+    .key-btn-extra[data-keychar="\\"] { left: calc(100% / 15 * 14 - 100% / 15 * 0.31); }
 
     /* ===== Info / instructions ===== */
     .info-grid {
@@ -553,6 +679,73 @@
       font-size: .76rem;
       font-family: monospace;
       color: var(--text-hi);
+    }
+
+    /* ===== Instructions Intro ===== */
+    .instructions-intro {
+      margin-bottom: 1.2rem;
+      line-height: 1.6;
+    }
+    .intro-heading {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent2);
+      margin-bottom: 0.6rem;
+    }
+    .intro-steps {
+      margin-left: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--text-hi);
+    }
+    .intro-steps li {
+      margin-bottom: 0.4rem;
+      font-size: 0.9rem;
+    }
+    .intro-steps li strong {
+      color: var(--accent3);
+    }
+    .intro-more {
+      font-size: 0.9rem;
+      color: var(--text-mid);
+      margin-bottom: 0.6rem;
+    }
+    .intro-toggle-prompt {
+      font-size: 0.9rem;
+      color: var(--accent2);
+      font-weight: 600;
+    }
+
+    /* ===== Native Details / Summary ===== */
+    .shortcut-details {
+      margin-top: 1.2rem;
+    }
+    .shortcut-summary {
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.3rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      border-radius: var(--radius-sm);
+      list-style: none;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: var(--trans);
+    }
+    .shortcut-summary::-webkit-details-marker {
+      display: none;
+    }
+    .shortcut-summary::marker {
+      display: none;
+    }
+    .details-content {
+      margin-top: 1.2rem;
+      animation: fadeIn 0.25s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* ===== Instructions Table ===== */
@@ -643,10 +836,240 @@
 
     /* ===== Responsive ===== */
     @media (max-width: 600px) {
-      .key-btn { width: 68px; min-height: 100px; }
       .controls-grid { grid-template-columns: 1fr; }
-      .keys-row { gap: .4rem; }
+      .piano-wrapper { min-width: 560px; height: 190px; }
+      .keys-row-extra { height: 112px; }
+      .key-btn-extra { height: 112px; }
     }
+
+    /* ===== 手機橫屏四排鋼琴排版 ===== */
+    /* 偵測手機橫向：寬度較大但高度較小的裝置（僅限觸控裝置/手機橫屏）*/
+    @media (max-height: 500px) and (orientation: landscape) and (max-width: 932px) and (pointer: coarse) {
+      /* 隱藏捲動式鋼琴，改用四排版面 */
+      .piano-scroll-container { display: none; }
+      .piano-landscape-grid { display: flex !important; flex-direction: column; gap: 4px; width: 100%; }
+
+      /* 每一組（高/低八度）的包裝 */
+      .piano-octave-row-wrap {
+        position: relative;
+        width: 100%;
+        height: 80px;
+        user-select: none;
+        -webkit-user-select: none;
+          background: #090915;
+        border-radius: 6px;
+        box-shadow: inset 0 4px 8px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.5);
+        border-top: 4px solid #1e1e38;
+      }
+
+      /* 白鍵 row in landscape */
+      .piano-octave-row-wrap .ls-white-row {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        position: relative;
+        gap: 2px;
+        padding: 0 3px 3px 3px;
+        box-sizing: border-box;
+      }
+
+      /* 白鍵按鈕 in landscape */
+      .ls-key-btn {
+        position: relative;
+        flex: 1 1 0%;
+        height: 100%;
+        background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 75%, #cbd5e1 100%);
+        border: 1px solid #94a3b8;
+        border-top: none;
+        border-radius: 0 0 5px 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 0.4rem;
+        cursor: pointer;
+        font-family: inherit;
+        color: #0f172a;
+        transition: background 0.12s ease, transform 0.08s ease;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.25), inset 0 -3px 0 #94a3b8;
+        user-select: none;
+        -webkit-user-select: none;
+        z-index: 1;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .ls-key-btn.pressed {
+        background: linear-gradient(180deg, #ddd6fe 0%, #a78bfa 75%, #7c3aed 100%);
+        color: #ffffff;
+        transform: translateY(2px);
+        box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 4px rgba(0,0,0,0.3);
+      }
+      .ls-key-note-name {
+        font-size: 0.6rem;
+        font-weight: 800;
+        color: #0f172a;
+        line-height: 1;
+        pointer-events: none;
+      }
+      .ls-key-btn.pressed .ls-key-note-name { color: #ffffff; }
+      .ls-key-solfege {
+        font-size: 0.52rem;
+        font-weight: 600;
+        color: #475569;
+        margin-top: 0.1rem;
+        pointer-events: none;
+      }
+      .ls-key-btn.pressed .ls-key-solfege { color: #f1f5f9; }
+
+      /* 黑鍵 overlay in landscape */
+      .piano-octave-row-wrap .ls-black-row {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 55%;
+        pointer-events: none;
+        z-index: 10;
+        box-sizing: border-box;
+        padding: 0 3px;
+      }
+      .ls-key-btn-extra {
+        position: absolute;
+        top: 0;
+        height: 100%;
+        background: linear-gradient(180deg, #2d3748 0%, #1a202c 70%, #0f172a 100%);
+        border: 1px solid rgba(6,182,212,0.4);
+        border-top: none;
+        border-radius: 0 0 4px 4px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        padding-bottom: 0.25rem;
+        cursor: pointer;
+        font-family: inherit;
+        color: var(--text-hi);
+        transition: background 0.12s ease, transform 0.08s ease;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.7), inset 0 -2px 0 var(--accent2);
+        user-select: none;
+        -webkit-user-select: none;
+        pointer-events: auto;
+        z-index: 10;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .ls-key-btn-extra.pressed {
+        background: linear-gradient(180deg, #0e7490 0%, #0891b2 75%, #06b6d4 100%);
+        transform: translateY(2px);
+        box-shadow: 0 1px 4px rgba(6,182,212,0.6);
+      }
+      .ls-key-extra-name {
+        font-size: 0.5rem;
+        font-weight: 700;
+        color: #67e8f9;
+        line-height: 1;
+        pointer-events: none;
+      }
+      .ls-key-btn-extra.pressed .ls-key-extra-name { color: #ffffff; }
+    }
+
+    /* 預設隱藏四排容器 */
+    .piano-landscape-grid { display: none; }
+
+    /* ===== Force Landscape Mode（橫向排版切換按鈕觸發）===== */
+    /* 全螢幕覆蓋彈奏區 */
+    body.force-landscape-mode main.keys-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      border-radius: 0;
+      margin: 0;
+      padding: 0.65rem 0.75rem 0.5rem;
+      width: 100%;
+      max-width: none;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: none;
+    }
+    body.force-landscape-mode .keys-panel .panel-title { margin-bottom: 0.4rem; }
+    body.force-landscape-mode .keys-panel .play-controls { margin-bottom: 0.4rem !important; flex-wrap: nowrap; gap: 0.5rem; }
+    body.force-landscape-mode .keys-panel .keys-hint { margin-bottom: 0.4rem !important; font-size: 0.68rem; }
+    body.force-landscape-mode .piano-scroll-container { display: none !important; }
+    body.force-landscape-mode .piano-landscape-grid {
+      display: flex !important;
+      flex-direction: column;
+      gap: 4px;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+    }
+    body.force-landscape-mode .piano-octave-row-wrap {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      background: #090915;
+      border-radius: 6px;
+      box-shadow: inset 0 4px 8px rgba(0,0,0,0.8), 0 4px 12px rgba(0,0,0,0.5);
+      border-top: 4px solid #1e1e38;
+    }
+    body.force-landscape-mode .piano-octave-row-wrap .ls-white-row {
+      display: flex; width: 100%; height: 100%;
+      position: relative; gap: 2px; padding: 0 3px 3px 3px; box-sizing: border-box;
+    }
+    body.force-landscape-mode .ls-key-btn {
+      position: relative; flex: 1 1 0%; height: 100%;
+      background: linear-gradient(180deg, #ffffff 0%, #f1f5f9 75%, #cbd5e1 100%);
+      border: 1px solid #94a3b8; border-top: none; border-radius: 0 0 5px 5px;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding-bottom: 0.4rem; cursor: pointer; font-family: inherit; color: #0f172a;
+      transition: background 0.12s ease, transform 0.08s ease;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.25), inset 0 -3px 0 #94a3b8;
+      user-select: none; -webkit-user-select: none; z-index: 1;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.force-landscape-mode .ls-key-btn.pressed {
+      background: linear-gradient(180deg, #ddd6fe 0%, #a78bfa 75%, #7c3aed 100%);
+      color: #ffffff; transform: translateY(2px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4), inset 0 1px 4px rgba(0,0,0,0.3);
+    }
+    body.force-landscape-mode .ls-key-note-name {
+      font-size: 0.6rem; font-weight: 800; color: #0f172a; line-height: 1; pointer-events: none;
+    }
+    body.force-landscape-mode .ls-key-btn.pressed .ls-key-note-name { color: #ffffff; }
+    body.force-landscape-mode .ls-key-solfege {
+      font-size: 0.52rem; font-weight: 600; color: #475569; margin-top: 0.1rem; pointer-events: none;
+    }
+    body.force-landscape-mode .ls-key-btn.pressed .ls-key-solfege { color: #f1f5f9; }
+    body.force-landscape-mode .piano-octave-row-wrap .ls-black-row {
+      position: absolute; top: 0; left: 0; width: 100%; height: 55%;
+      pointer-events: none; z-index: 10; box-sizing: border-box; padding: 0 3px;
+    }
+    body.force-landscape-mode .ls-key-btn-extra {
+      position: absolute; top: 0; height: 100%;
+      background: linear-gradient(180deg, #2d3748 0%, #1a202c 70%, #0f172a 100%);
+      border: 1px solid rgba(6,182,212,0.4); border-top: none; border-radius: 0 0 4px 4px;
+      display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+      padding-bottom: 0.25rem; cursor: pointer; font-family: inherit; color: var(--text-hi);
+      transition: background 0.12s ease, transform 0.08s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.7), inset 0 -2px 0 var(--accent2);
+      user-select: none; -webkit-user-select: none; pointer-events: auto; z-index: 10;
+      -webkit-tap-highlight-color: transparent;
+    }
+    body.force-landscape-mode .ls-key-btn-extra.pressed {
+      background: linear-gradient(180deg, #0e7490 0%, #0891b2 75%, #06b6d4 100%);
+      transform: translateY(2px); box-shadow: 0 1px 4px rgba(6,182,212,0.6);
+    }
+    body.force-landscape-mode .ls-key-extra-name {
+      font-size: 0.5rem; font-weight: 700; color: #67e8f9; line-height: 1; pointer-events: none;
+    }
+    body.force-landscape-mode .ls-key-btn-extra.pressed .ls-key-extra-name { color: #ffffff; }
+    /* 橫向排版按鈕在全螢幕模式下縮小字體節省空間 */
+    body.force-landscape-mode #force-landscape-btn,
+    body.force-landscape-mode #play-btn,
+    body.force-landscape-mode #btn-toggle-play { font-size: 0.78rem; padding: 0.45rem 0.8rem; }
+    body.force-landscape-mode .status-bar { font-size: 0.72rem; padding: 0.35rem 0.7rem; }
 
     /* ===== Metronome Specific Styles ===== */
     .metronome-panel-grid {
@@ -891,7 +1314,7 @@
 
     <!-- Device Notice -->
     <div id="desktop-notice" class="sr-only">
-      歡迎使用免費線上虛擬樂器，請將nvda切換為輸入模式再進行彈奏。
+      歡迎使用免費線上虛擬樂器，可用 Tab 鍵導覽至各音階按鍵，按 Enter 或 Space 彈奏。
     </div>
     <div id="mobile-notice" class="mobile-notice" style="display: none;" role="note">
       歡迎使用免費線上虛擬樂器，請點選下方案件進行彈奏。
@@ -908,7 +1331,7 @@
 
     <!-- ===== Controls Panel ===== -->
     <section class="panel" aria-labelledby="controls-heading">
-      <div class="panel-title" id="controls-heading">🎛 樂器設定</div>
+      <h2 class="panel-title" id="controls-heading">🎛 樂器設定</h2>
       <form autocomplete="off" onsubmit="return false;">
         <div class="controls-grid">
 
@@ -995,13 +1418,7 @@
 
     <!-- ===== Metronome Panel ===== -->
     <section class="panel" id="metronome-panel" aria-labelledby="metronome-heading">
-      <div class="panel-title" id="metronome-heading">⏱️ 節拍器設定</div>
-      
-      <!-- 狀態播報區 (ARIA Live Region) -->
-      <div id="metronome-announcer" class="sr-only" aria-live="assertive" aria-atomic="true">
-        節拍器已載入，目前設定為 90 BPM，拍號 4/4 拍。
-      </div>
-
+      <h2 class="panel-title" id="metronome-heading">⏱️ 節拍器設定</h2>      
       <div class="metronome-panel-grid">
         
         <!-- BPM 顯示與指示燈 -->
@@ -1045,11 +1462,11 @@
                   type="range" 
                   id="bpm-slider" 
                   min="1" 
-                  max="3000" 
+                  max="450" 
                   value="90" 
                   step="1"
                   aria-valuemin="1"
-                  aria-valuemax="3000"
+                  aria-valuemax="450"
                   aria-valuenow="90"
                   aria-valuetext="90 BPM"
                 />
@@ -1191,6 +1608,20 @@
       <h2 class="panel-title" id="play-zone-heading">彈奏區域</h2>
       <form autocomplete="off" onsubmit="return false;">
         <div class="play-controls" style="margin-bottom: 1.5rem;">
+          <!-- 橫向排版切換按鈕 -->
+          <button
+            class="btn btn-secondary"
+            id="force-landscape-btn"
+            type="button"
+            autocomplete="off"
+            aria-label="切換橫向排版，目前：直式排版"
+            aria-pressed="false"
+            title="切換為橫向四排鋼琴排版，鎖定旋轉的使用者也可使用"
+          >
+            <span aria-hidden="true">⇔</span>
+            <span id="force-landscape-btn-text">橫向排版</span>
+          </button>
+
           <button
             class="btn btn-primary active"
             id="play-btn"
@@ -1218,6 +1649,26 @@
             <span id="metronome-btn-text">開始節拍器</span>
           </button>
 
+          <!-- 錄音控制組合 -->
+          <div class="record-group" style="display: flex; flex-direction: column; gap: 0.4rem; min-width: 180px;">
+            <button
+              class="btn btn-secondary"
+              id="btn-toggle-record"
+              type="button"
+              autocomplete="off"
+              aria-label="開始錄音"
+              aria-pressed="false"
+              title="開始/停止錄音"
+            >
+              <span id="record-btn-icon" aria-hidden="true">🔴</span>
+              <span id="record-btn-text">開始錄音</span>
+            </button>
+            <select id="record-source-select" aria-label="選擇錄音聲音來源" style="padding: 0.35rem 0.60rem; font-size: 0.8rem; margin: 0; width: 100%;">
+              <option value="all">所有聲音 (包含樂器與節拍器)</option>
+              <option value="instruments">只包含樂器</option>
+            </select>
+          </div>
+
           <div class="status-bar" role="status" aria-live="polite" aria-atomic="true">
             <div class="status-dot playing" id="status-dot"></div>
             <span id="status-text">彈奏中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續</span>
@@ -1228,145 +1679,312 @@
           按住不放時聲音持續 · 放開後停止 · 可同時按多鍵 · 小調為和聲小調
         </p>
 
-        <!-- Key buttons row -->
-        <div
-          class="keys-row"
-          role="group"
-          aria-label="音階按鍵：` 1 到 8 9 到 = Backspace Home，對應低音 B、C 到高音 C、高音 D 到高音 B"
-        >
-          <!-- Keys generated by JS -->
+        <!-- Piano keyboard: white keys + black keys overlay -->
+        <!-- 鋼琴鍵盤：白鍵與半音鍵 -->
+        <div class="piano-scroll-container">
+          <div class="piano-wrapper" aria-label="鋼琴彈奏區域">
+            <!-- White key buttons row -->
+            <div
+              class="keys-row"
+              role="group"
+              aria-label="音階按鍵：` 1 到 8 9 到 = Backspace Home，對應低音 B、C 到高音 C、高音 D 到高音 B"
+            >
+              <!-- Keys generated by JS -->
+            </div>
+            <!-- Chromatic black keys (absolutely positioned over white keys) -->
+            <div
+              class="keys-row-extra"
+              id="extra-keys-row"
+              role="group"
+              aria-label="半音按鍵：Q W R T Y I O [ ] \，對應 C♯ D♯ F♯ G♯ B♭ 及高音同名各鍵"
+            >
+              <!-- Extra chromatic keys generated by JS -->
+            </div>
+          </div>
         </div>
-        <!-- Chromatic extra keys -->
+
+        <!-- 手機橫屏四排鋼琴版面（由 JS 控制顯示）-->
+        <!-- 第一排：較高八度白鍵，第二排：較高八度黑鍵（覆蓋在第一排上方）-->
+        <!-- 第三排：基礎八度白鍵，第四排：基礎八度黑鍵（覆蓋在第三排上方）-->
+        <!-- 手機橫屏四排鋼琴版面 -->
         <div
-          class="keys-row-extra"
-          id="extra-keys-row"
-          role="group"
-          aria-label="半音按鍵：Q W R T Y I O [ ] \，對應 C♯ D♯ F♯ G♯ B♭ 及高音同名各鍵"
+          class="piano-landscape-grid"
+          id="piano-landscape-grid"
+          aria-label="橫向鋼琴彈奏區域，上方為較高八度，下方為基礎八度"
         >
-          <!-- Extra chromatic keys generated by JS -->
+          <!-- 較高八度（octOffset: 1）：白鍵 + 黑鍵 -->
+          <div
+            class="piano-octave-row-wrap"
+            id="ls-high-wrap"
+            role="group"
+            aria-label="較高八度音階鍵"
+          >
+            <div class="ls-white-row" id="ls-high-white" role="group" aria-label="較高八度白鍵"></div>
+            <div class="ls-black-row" id="ls-high-black" role="group" aria-label="較高八度黑鍵"></div>
+          </div>
+          <!-- 基礎八度（octOffset: 0 含 -1 的低音B）：白鍵 + 黑鍵 -->
+          <div
+            class="piano-octave-row-wrap"
+            id="ls-low-wrap"
+            role="group"
+            aria-label="基礎八度音階鍵"
+          >
+            <div class="ls-white-row" id="ls-low-white" role="group" aria-label="基礎八度白鍵"></div>
+            <div class="ls-black-row" id="ls-low-black" role="group" aria-label="基礎八度黑鍵"></div>
+          </div>
         </div>
       </form>
     </main>
 
+    <!-- ===== Recording Playback & Download Panel ===== -->
+    <section class="panel" id="recording-playback-panel" style="display: none;" aria-labelledby="playback-heading">
+      <div class="panel-title" id="playback-heading">🎙️ 錄音播放與下載</div>
+      
+      <!-- 僅螢幕閱讀器可讀取的狀態播報 -->
+      <div id="recording-playback-announcer" class="sr-only" aria-live="assertive" aria-atomic="true"></div>
+
+      <div class="playback-controls-wrapper" style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1rem;">
+        <h3 style="font-size: 1.1rem; color: var(--accent2); margin-bottom: 0.2rem; display: flex; align-items: center; gap: 0.5rem;">
+          <span aria-hidden="true">▶️</span> 錄音播放器
+        </h3>
+        <audio id="recording-player" style="display: none;"></audio>
+
+        <!-- 播放控制按鈕與下載連結 -->
+        <div style="display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;">
+          <button class="btn btn-primary" id="btn-player-play" type="button" aria-label="播放錄音">
+            <span id="player-play-icon" aria-hidden="true">▶</span>
+            <span id="player-play-text">播放</span>
+          </button>
+          
+          <button class="btn btn-secondary" id="btn-player-back" type="button" aria-label="倒轉 10 秒" title="倒轉 10 秒">
+            <span aria-hidden="true">⏪ 10s</span>
+          </button>
+          
+          <!-- 音軌位置與播放進度 -->
+          <div id="player-progress-container" style="display: flex; align-items: center; gap: 0.6rem; min-width: 240px; flex-grow: 1; background: rgba(255,255,255,0.03); padding: 0.35rem 0.7rem; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.06);">
+            <span id="player-time-current" style="font-size: 0.8rem; font-family: monospace; color: var(--accent2); min-width: 32px; text-align: right;">0:00</span>
+            
+            <input 
+              type="range" 
+              id="player-progress-slider" 
+              min="0" 
+              max="100" 
+              value="0" 
+              step="1"
+              aria-label="音軌播放進度，使用左右或上下方向鍵可快轉或倒轉 5 秒"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="0"
+              aria-valuetext="0:00 / 0:00"
+              style="flex-grow: 1; cursor: pointer; margin: 0; min-width: 80px;"
+            />
+            
+            <span id="player-time-total" style="font-size: 0.8rem; font-family: monospace; color: var(--text-mid); min-width: 32px;">0:00</span>
+          </div>
+          
+          <button class="btn btn-secondary" id="btn-player-forward" type="button" aria-label="快轉 10 秒" title="快轉 10 秒">
+            <span aria-hidden="true">10s ⏩</span>
+          </button>
+          
+          <a class="btn btn-primary" id="recording-download-link" href="#" style="text-decoration: none;" aria-label="下載 WAV 錄音檔">
+            <span aria-hidden="true">💾</span> 下載 WAV 檔案
+          </a>
+        </div>
+
+        <!-- 播放速度控制組合 -->
+        <div class="ctrl-group" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: var(--radius-md); border: 1px solid rgba(255,255,255,0.05); margin-top: 0.5rem;">
+          <label style="font-weight: 700; color: var(--accent2);">調整播放速度</label>
+          <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
+            <!-- 下拉選單 -->
+            <div style="flex: 1; min-width: 130px;">
+              <select id="player-speed-select" aria-label="選擇播放速度">
+                <option value="0.5" aria-label="0.5 倍速">0.5 倍速</option>
+                <option value="0.75" aria-label="0.75 倍速">0.75 倍速</option>
+                <option value="1.0" selected aria-label="1.0 倍速">1.0 倍速 (預設)</option>
+                <option value="1.25" aria-label="1.25 倍速">1.25 倍速</option>
+                <option value="1.5" aria-label="1.5 倍速">1.5 倍速</option>
+                <option value="2.0" aria-label="2.0 倍速">2.0 倍速</option>
+              </select>
+            </div>
+
+            <!-- 手動輸入框 -->
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <label for="player-speed-input" style="font-size: 0.82rem; white-space: nowrap;">手動輸入倍數:</label>
+              <input 
+                type="number" 
+                id="player-speed-input" 
+                class="bpm-input-field" 
+                value="1.0" 
+                min="0.25"
+                max="3.0"
+                step="0.05"
+                style="width: 80px;"
+                aria-label="手動輸入播放速度倍數"
+              />
+            </div>
+
+            <!-- 滑桿 -->
+            <div style="flex: 2; min-width: 200px; display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 0.8rem; color: var(--text-mid);">0.25x</span>
+              <input 
+                type="range" 
+                id="player-speed-slider" 
+                min="0.25" 
+                max="3.0" 
+                value="1.0" 
+                step="0.05"
+                aria-valuemin="0.25"
+                aria-valuemax="3.0"
+                aria-valuenow="1.0"
+                aria-valuetext="1.0 倍速"
+                aria-label="拉動滑桿以調整播放速度"
+              />
+              <span style="font-size: 0.8rem; color: var(--text-mid);">3.0x</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===== Instructions Panel ===== -->
     <section class="panel" id="instructions" aria-labelledby="help-heading">
       <div class="panel-title" id="help-heading">📖 操作說明</div>
-      <div class="info-grid">
-        <div class="info-card" style="grid-column: 1 / -1;">
-          <h3>鍵盤快速鍵</h3>
-          <table class="info-table">
-            <thead>
-              <tr>
-                <th scope="col">按鈕</th>
-                <th scope="col">彈奏的音或功能</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><kbd class="kbd">`</kbd></td>
-                <td>彈奏 低音 B</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">1</kbd>–<kbd class="kbd">8</kbd></td>
-                <td>彈奏 C–高音 C</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">9</kbd>–<kbd class="kbd">=</kbd></td>
-                <td>彈奏 高音 D–高音 G</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Q</kbd></td>
-                <td>彈奏 C♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">W</kbd></td>
-                <td>彈奏 D♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">R</kbd></td>
-                <td>彈奏 F♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">T</kbd></td>
-                <td>彈奏 G♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Y</kbd></td>
-                <td>彈奏 B♭（半音黑鍵）</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">I</kbd></td>
-                <td>彈奏 高音 C♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">O</kbd></td>
-                <td>彈奏 高音 D♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">[</kbd></td>
-                <td>彈奏 高音 F♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">]</kbd></td>
-                <td>彈奏 高音 G♯</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Backspace</kbd></td>
-                <td>彈奏 高音 A</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Home</kbd></td>
-                <td>彈奏 高音 B</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">\</kbd></td>
-                <td>彈奏 高音 B♭</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Space</kbd></td>
-                <td>短按：開始 / 停止彈奏 · 長按：降八度</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Shift</kbd> + <kbd class="kbd">F</kbd></td>
-                <td>開始 / 暫停節拍器</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Shift</kbd></td>
-                <td>按住升八度</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Enter</kbd></td>
-                <td>停止彈奏（若焦點在音階按鍵上，則可直接彈奏）</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">Z</kbd> / <kbd class="kbd">↓</kbd></td>
-                <td>降八度</td>
-              </tr>
-              <tr>
-                <td><kbd class="kbd">X</kbd> / <kbd class="kbd">↑</kbd></td>
-                <td>升八度</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="info-card">
-          <h3>彈奏技巧</h3>
-          <ul>
-            <li>按住鍵盤鍵時聲音持續</li>
-            <li>放開鍵盤鍵時聲音停止</li>
-            <li>可同時按多鍵和弦</li>
-            <li>小調採和聲小調（B 升半音）</li>
-            <li>切換調號 / 音色立即生效</li>
-          </ul>
-        </div>
-        <div class="info-card">
-          <h3>無障礙功能</h3>
-          <ul>
-            <li>支援鍵盤完整操作</li>
-            <li>螢幕閱讀器提示</li>
-          </ul>
-        </div>
+      
+      <div class="instructions-intro">
+        <h3 class="intro-heading">簡單三步驟</h3>
+        <ol class="intro-steps">
+          <li><strong>選擇樂器音色：</strong>請從上方選單中選擇鋼琴、鐵琴等樂器音色</li>
+          <li><strong>開始彈奏：</strong>點擊下方音階按鍵或按下電腦鍵盤1-8進行基礎音階彈奏</li>
+          <li><strong>調整聲音：</strong>使用音量滑桿調整音量，如果想跟著節拍彈奏，可按下開始節拍器並調整節拍器速度、音量</li>
+        </ol>
+        <p class="intro-more">想使用更多功能嗎？你可以調整調號、八度、節拍器每分鐘拍數、節拍器音色…等，都可以在上方選單中自由選擇喔。</p>
+        <p class="intro-toggle-prompt">想查看所有鍵盤快捷鍵與音階對照？請展開下方的操作說明對照表</p>
       </div>
+
+      <details id="shortcut-details" class="shortcut-details">
+        <summary id="shortcut-summary" class="btn btn-secondary shortcut-summary">
+          <span id="summary-toggle-text">展開操作說明對照表</span>
+        </summary>
+        <div class="details-content">
+          <div class="info-grid">
+            <div class="info-card" style="grid-column: 1 / -1;">
+              <h3>鍵盤快速鍵</h3>
+              <table class="info-table">
+                <thead>
+                  <tr>
+                    <th scope="col">按鈕</th>
+                    <th scope="col">彈奏的音或功能</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd class="kbd">`</kbd></td>
+                    <td>彈奏 低音 B</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">1</kbd>–<kbd class="kbd">8</kbd></td>
+                    <td>彈奏 C–高音 C</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">9</kbd>–<kbd class="kbd">=</kbd></td>
+                    <td>彈奏 高音 D–高音 G</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Q</kbd></td>
+                    <td>彈奏 C♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">W</kbd></td>
+                    <td>彈奏 D♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">R</kbd></td>
+                    <td>彈奏 F♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">T</kbd></td>
+                    <td>彈奏 G♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Y</kbd></td>
+                    <td>彈奏 B♭（半音黑鍵）</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">I</kbd></td>
+                    <td>彈奏 高音 C♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">O</kbd></td>
+                    <td>彈奏 高音 D♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">[</kbd></td>
+                    <td>彈奏 高音 F♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">]</kbd></td>
+                    <td>彈奏 高音 G♯</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Backspace</kbd></td>
+                    <td>彈奏 高音 A</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Home</kbd></td>
+                    <td>彈奏 高音 B</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">\</kbd></td>
+                    <td>彈奏 高音 B♭</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Space</kbd></td>
+                    <td>短按：開始 / 停止彈奏 · 長按：降八度</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Shift</kbd> + <kbd class="kbd">F</kbd></td>
+                    <td>開始 / 暫停節拍器</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Shift</kbd></td>
+                    <td>按住升八度</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Enter</kbd></td>
+                    <td>停止彈奏（若焦點在音階按鍵上，則可直接彈奏）</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">Z</kbd> / <kbd class="kbd">↓</kbd></td>
+                    <td>降八度</td>
+                  </tr>
+                  <tr>
+                    <td><kbd class="kbd">X</kbd> / <kbd class="kbd">↑</kbd></td>
+                    <td>升八度</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="info-card">
+              <h3>彈奏技巧</h3>
+              <ul>
+                <li>按住鍵盤鍵時聲音持續</li>
+                <li>放開鍵盤鍵時聲音停止</li>
+                <li>可同時按多鍵和弦</li>
+                <li>小調採和聲小調（B 升半音）</li>
+                <li>切換調號 / 音色立即生效</li>
+              </ul>
+            </div>
+            <div class="info-card">
+              <h3>無障礙功能</h3>
+              <ul>
+                <li>支援鍵盤完整操作</li>
+                <li>螢幕閱讀器提示</li>
+                <li>NVDA：進入彈奏區域後自動切換為輸入模式，可用 Tab 鍵切換各音階按鍵，按 Enter 或 Space 彈奏</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </details>
     </section>
 
     <footer>
@@ -1384,13 +2002,25 @@
     ============================================================ */
     let audioCtx = null;
     let masterGain = null;
+    let instrumentGain = null;
+    let metroGain = null;
+    let recorderDestination = null;
 
     function ensureAudioCtx() {
       if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (window.Tone) {
+          Tone.setContext(audioCtx);
+        }
+        instrumentGain = audioCtx.createGain();
+        instrumentGain.connect(audioCtx.destination);
+
+        metroGain = audioCtx.createGain();
+        metroGain.connect(audioCtx.destination);
+
         masterGain = audioCtx.createGain();
         masterGain.gain.setValueAtTime(1.0, audioCtx.currentTime);
-        masterGain.connect(audioCtx.destination);
+        masterGain.connect(instrumentGain);
       }
       if (audioCtx.state === 'suspended') audioCtx.resume();
       if (window.Tone && Tone.context.state !== 'running') {
@@ -1601,6 +2231,7 @@
     let toneSynths = null;
     function initToneSynths() {
       if (toneSynths) return;
+      ensureAudioCtx();
       
       const piano = new Tone.Sampler({
         urls: {
@@ -1613,7 +2244,7 @@
         },
         baseUrl: "https://tonejs.github.io/audio/salamander/",
         release: 1,
-      }).toDestination();
+      }).connect(instrumentGain);
       piano.volume.value = 20 * Math.log10(1.4);
 
       const xylophone = new Tone.PolySynth(Tone.FMSynth, {
@@ -1623,7 +2254,7 @@
         envelope: { attack: 0.005, decay: 0.2, sustain: 0.35, release: 0.25 },
         modulation: { type: "square" },
         modulationEnvelope: { attack: 0.005, decay: 0.1, sustain: 0.1, release: 0.1 }
-      }).toDestination();
+      }).connect(instrumentGain);
       xylophone.volume.value = 4.86; // 1.75x louder
 
       const marimba = new Tone.PolySynth(Tone.FMSynth, {
@@ -1633,10 +2264,10 @@
         envelope: { attack: 0.005, decay: 0.25, sustain: 0.4, release: 0.35 },
         modulation: { type: "sine" },
         modulationEnvelope: { attack: 0.005, decay: 0.15, sustain: 0.15, release: 0.1 }
-      }).toDestination();
+      }).connect(instrumentGain);
       marimba.volume.value = 4.86; // 1.75x louder
 
-      const organChorus = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+      const organChorus = new Tone.Chorus(4, 2.5, 0.5).connect(instrumentGain).start();
       const organ = new Tone.PolySynth(Tone.Synth, {
         oscillator: {
           type: "custom",
@@ -1783,8 +2414,8 @@
     const extraKeyButtons = [];   // DOM button refs for chromatic keys
     let isSpaceHeld = false;
     let isShiftHeld = false;
-    let touchActiveKeyNum  = null;   // primary key currently held by touch
-    let touchActiveExtraKc = null;   // extra chromatic key currently held by touch
+    // 橫屏偵測狀態
+    let isLandscapeMobile = false;
 
     /* ============================================================
        DOM REFS
@@ -1802,6 +2433,7 @@
     const statusText       = document.getElementById('status-text');
     const keysRow          = document.querySelector('.keys-row');
     const extraKeysRow     = document.getElementById('extra-keys-row');
+    const pianoWrapper     = document.querySelector('.piano-wrapper');
 
     /* ============================================================
        KEY BUTTONS
@@ -1835,14 +2467,28 @@
         `;
 
         // Mouse events
+        let mouseTriggered = false;
         btn.addEventListener('mousedown', (e) => {
           e.preventDefault();
+          mouseTriggered = true;
           startNote(i + 1);
         });
-        btn.addEventListener('mouseup',   () => stopNote(i + 1));
-        btn.addEventListener('mouseleave',() => stopNote(i + 1));
-
-        // Touch events handled at container level (see initTouchHandlers)
+        btn.addEventListener('mouseup', () => {
+          stopNote(i + 1);
+          setTimeout(() => { mouseTriggered = false; }, 50);
+        });
+        btn.addEventListener('mouseleave', () => {
+          stopNote(i + 1);
+          setTimeout(() => { mouseTriggered = false; }, 50);
+        });
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!mouseTriggered) {
+            startNote(i + 1);
+            setTimeout(() => stopNote(i + 1), 350);
+          }
+        });
 
         keysRow.appendChild(btn);
         keyButtons.push(btn);
@@ -1885,99 +2531,486 @@
           <span class="key-solfege" aria-hidden="true">${note.solfege}</span>
         `;
 
+        let extraMouseTriggered = false;
         btn.addEventListener('mousedown', (e) => {
           e.preventDefault();
+          extraMouseTriggered = true;
           startExtraNote(kc);
         });
-        btn.addEventListener('mouseup',   () => stopExtraNote(kc));
-        btn.addEventListener('mouseleave',() => stopExtraNote(kc));
-        // Touch events handled at container level (see initTouchHandlers)
-
+        btn.addEventListener('mouseup', () => {
+          stopExtraNote(kc);
+          setTimeout(() => { extraMouseTriggered = false; }, 50);
+        });
+        btn.addEventListener('mouseleave', () => {
+          stopExtraNote(kc);
+          setTimeout(() => { extraMouseTriggered = false; }, 50);
+        });
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!extraMouseTriggered) {
+            startExtraNote(kc);
+            setTimeout(() => stopExtraNote(kc), 350);
+          }
+        });
         extraKeysRow.appendChild(btn);
         extraKeyButtons.push(btn);
       });
     }
 
     /* ============================================================
-       TOUCH HANDLERS
-       Container-level listeners so sliding a finger across keys
-       on mobile correctly stops the old note and starts the new
-       one via touchmove.  Individual buttons keep mouse events
-       for desktop; touch is handled here only.
+       多指滑動彈奏
+       每個 Touch identifier 都獨立追蹤自己的音符。
+       這裡保留滑動彈奏，並以每根手指的 identifier 個別追蹤。
     ============================================================ */
+    const activePianoTouches = new Map();
+
+    function getPianoKeyFromPoint(touch) {
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (!el) return null;
+
+      const extraBtn = el.closest('.key-btn-extra');
+      if (extraBtn && extraBtn.dataset.keychar) {
+        return { isExtra: true, key: extraBtn.dataset.keychar };
+      }
+
+      const primaryBtn = el.closest('.key-btn');
+      if (primaryBtn && primaryBtn.dataset.index !== undefined && !primaryBtn.classList.contains('key-btn-extra')) {
+        return { isExtra: false, key: parseInt(primaryBtn.dataset.index, 10) + 1 };
+      }
+
+      return null;
+    }
+
+    function stopTrackedPianoTouch(identifier) {
+      const active = activePianoTouches.get(identifier);
+      if (!active) return;
+      if (active.isExtra) stopExtraNote(active.key);
+      else stopNote(active.key);
+      activePianoTouches.delete(identifier);
+    }
+
+    function startOrMovePianoTouch(touch) {
+      const next = getPianoKeyFromPoint(touch);
+      const previous = activePianoTouches.get(touch.identifier);
+
+      if (!next) {
+        stopTrackedPianoTouch(touch.identifier);
+        return;
+      }
+
+      if (previous && previous.isExtra === next.isExtra && previous.key === next.key) return;
+      if (previous) stopTrackedPianoTouch(touch.identifier);
+
+      if (next.isExtra) startExtraNote(next.key);
+      else startNote(next.key);
+      activePianoTouches.set(touch.identifier, next);
+    }
+
     function initTouchHandlers() {
+      if (!pianoWrapper) return;
 
-      // ── Primary key row ──────────────────────────────────────
-      keysRow.addEventListener('touchstart', (e) => {
+      pianoWrapper.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        const touch = e.changedTouches[0];
-        const el  = document.elementFromPoint(touch.clientX, touch.clientY);
-        const btn = el && el.closest('.key-btn:not(.key-btn-extra)');
-        if (!btn || btn.dataset.index === undefined) return;
-        const keyNum = parseInt(btn.dataset.index, 10) + 1;
-        if (touchActiveKeyNum !== null && touchActiveKeyNum !== keyNum) stopNote(touchActiveKeyNum);
-        touchActiveKeyNum = keyNum;
-        startNote(keyNum);
+        Array.from(e.changedTouches).forEach(startOrMovePianoTouch);
       }, { passive: false });
 
-      keysRow.addEventListener('touchmove', (e) => {
+      pianoWrapper.addEventListener('touchmove', (e) => {
         e.preventDefault();
-        const touch = e.changedTouches[0];
-        const el  = document.elementFromPoint(touch.clientX, touch.clientY);
-        const btn = el && el.closest('.key-btn:not(.key-btn-extra)');
-        const keyNum = (btn && btn.dataset.index !== undefined)
-          ? parseInt(btn.dataset.index, 10) + 1
-          : null;
-        if (keyNum !== touchActiveKeyNum) {
-          if (touchActiveKeyNum !== null) stopNote(touchActiveKeyNum);
-          touchActiveKeyNum = keyNum;
-          if (keyNum !== null) startNote(keyNum);
+        Array.from(e.changedTouches).forEach(startOrMovePianoTouch);
+      }, { passive: false });
+
+      pianoWrapper.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        Array.from(e.changedTouches).forEach(touch => stopTrackedPianoTouch(touch.identifier));
+      }, { passive: false });
+
+      pianoWrapper.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        Array.from(e.changedTouches).forEach(touch => stopTrackedPianoTouch(touch.identifier));
+      }, { passive: false });
+    }
+
+    /* ============================================================
+       橫屏四排鋼琴 — DOM 建構
+    ============================================================ */
+
+    // 橫屏用的按鈕與音符快取
+    const lsHighWhiteButtons = [];  // 較高八度白鍵按鈕
+    const lsHighBlackButtons = [];  // 較高八度黑鍵按鈕
+    const lsLowWhiteButtons  = [];  // 基礎八度白鍵按鈕
+    const lsLowBlackButtons  = [];  // 基礎八度黑鍵按鈕
+
+    // 較高八度白鍵：PRIMARY_KEY_MAP 中 octOffset === 1 的項目（index 8–13）
+    // 較低八度白鍵：PRIMARY_KEY_MAP 中 octOffset === 0 的項目（index 0–7），含低音B(index 0)
+    // 較高八度黑鍵：EXTRA_KEY_MAP 中 octOffset === 1 的項目
+    // 基礎八度黑鍵：EXTRA_KEY_MAP 中 octOffset === 0 的項目
+
+    // 計算黑鍵相對於所在 row 中白鍵數量的位置
+    // 白鍵按音階順序排列，黑鍵根據音名（C#/D#/F#/G#/Bb）插入白鍵間隙
+    // 用音程關係決定：黑鍵 C# 在 C(0)和D(1)之間，D# 在 D(1)和E(2)之間……
+    // 以每個八度白鍵數量作為寬度單位計算 left
+
+    /**
+     * 根據當前調號與八度，計算一個八度的白鍵 notes（octOffset 指定）
+     * 返回 { notes, indices }，notes 是 getScaleNotes 中 octOffset 吻合的項目
+     */
+    function getLsNotes() {
+      // 重新從 currentNotes / extraNotes 分類
+      const highWhite = []; // octOffset === 1 的白鍵（index 8-13）
+      const lowWhite  = []; // octOffset === 0 及 -1（低音B）的白鍵（index 0-7）
+      const highBlack = []; // octOffset === 1 的黑鍵
+      const lowBlack  = []; // octOffset === 0 的黑鍵
+
+      // PRIMARY_KEY_MAP: index 0 是低音B(octOffset:-1), 1-7是基礎八度, 8-13是高八度
+      currentNotes.forEach((note, i) => {
+        const mapItem = PRIMARY_KEY_MAP[i];
+        if (mapItem.octOffset === 1) {
+          highWhite.push({ note, i, mapItem });
+        } else {
+          lowWhite.push({ note, i, mapItem });
         }
-      }, { passive: false });
-
-      keysRow.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        if (touchActiveKeyNum !== null) { stopNote(touchActiveKeyNum); touchActiveKeyNum = null; }
       });
 
-      keysRow.addEventListener('touchcancel', () => {
-        if (touchActiveKeyNum !== null) { stopNote(touchActiveKeyNum); touchActiveKeyNum = null; }
-      });
-
-      // ── Extra (chromatic) key row ────────────────────────────
-      extraKeysRow.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        const touch = e.changedTouches[0];
-        const el  = document.elementFromPoint(touch.clientX, touch.clientY);
-        const btn = el && el.closest('.key-btn-extra');
-        if (!btn || !btn.dataset.keychar) return;
-        const kc = btn.dataset.keychar;
-        if (touchActiveExtraKc !== null && touchActiveExtraKc !== kc) stopExtraNote(touchActiveExtraKc);
-        touchActiveExtraKc = kc;
-        startExtraNote(kc);
-      }, { passive: false });
-
-      extraKeysRow.addEventListener('touchmove', (e) => {
-        e.preventDefault();
-        const touch = e.changedTouches[0];
-        const el  = document.elementFromPoint(touch.clientX, touch.clientY);
-        const btn = el && el.closest('.key-btn-extra');
-        const kc  = (btn && btn.dataset.keychar) ? btn.dataset.keychar : null;
-        if (kc !== touchActiveExtraKc) {
-          if (touchActiveExtraKc !== null) stopExtraNote(touchActiveExtraKc);
-          touchActiveExtraKc = kc;
-          if (kc) startExtraNote(kc);
+      extraNotes.forEach((note, i) => {
+        const mapItem = EXTRA_KEY_MAP[i];
+        if (mapItem.octOffset === 1) {
+          highBlack.push({ note, i, mapItem });
+        } else {
+          lowBlack.push({ note, i, mapItem });
         }
+      });
+
+      return { highWhite, lowWhite, highBlack, lowBlack };
+    }
+
+    /**
+     * 計算黑鍵在鋼琴行中的 left% 位置。
+     * 基於黑鍵音符的 MIDI 號，找出它夾在哪兩個白鍵之間，
+     * 再以白鍵總數作單位計算中心位置。
+     * @param {number} blackMidi - 黑鍵 MIDI 音高
+     * @param {Array}  whiteNotes - 該行所有白鍵的 {note, i, mapItem} 陣列
+     * @param {number} blackWidthPct - 黑鍵寬度佔整行的百分比
+     * @returns {number} left 百分比
+     */
+    function calcBlackKeyLeft(blackMidi, whiteNotes, blackWidthPct) {
+      const n = whiteNotes.length;
+      // 找出黑鍵右邊的白鍵（第一個 MIDI > blackMidi 的白鍵）
+      let rightIdx = whiteNotes.findIndex(w => w.note.midi > blackMidi);
+      if (rightIdx < 0) rightIdx = n;
+      // left = (rightIdx / n) * 100 - blackWidthPct / 2
+      return (rightIdx / n) * 100 - blackWidthPct / 2;
+    }
+
+    function buildLsKeyBtn(note, i, isExtra, kc) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('autocomplete', 'off');
+      btn.className = isExtra ? 'ls-key-btn-extra' : 'ls-key-btn';
+      if (!isExtra) {
+        btn.dataset.lsIndex = i;
+        btn.setAttribute('aria-label',
+          `橫屏音階按鍵 ${note.solfege}，${note.noteName}，${note.freq.toFixed(1)} Hz`);
+        btn.innerHTML = `<span class="ls-key-note-name" aria-hidden="true">${note.noteName}</span><span class="ls-key-solfege" aria-hidden="true">${note.solfege}</span>`;
+      } else {
+        btn.dataset.lsKc = kc;
+        btn.setAttribute('aria-label',
+          `橫屏黑鍵 ${note.solfege}，${note.noteName}，${note.freq.toFixed(1)} Hz`);
+        btn.innerHTML = `<span class="ls-key-extra-name" aria-hidden="true">${note.noteName}</span>`;
+      }
+      btn.setAttribute('aria-disabled', 'false');
+      btn.disabled = false;
+
+      // 保留基本點擊操作；移除容器層滑動觸控處理
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (isExtra) {
+          startExtraNote(kc);
+          setTimeout(() => stopExtraNote(kc), 350);
+        } else {
+          startNote(i + 1);
+          setTimeout(() => stopNote(i + 1), 350);
+        }
+      });
+
+      return btn;
+    }
+
+    function buildLandscapePiano() {
+      const highWhiteRow = document.getElementById('ls-high-white');
+      const highBlackRow = document.getElementById('ls-high-black');
+      const lowWhiteRow  = document.getElementById('ls-low-white');
+      const lowBlackRow  = document.getElementById('ls-low-black');
+      if (!highWhiteRow) return;
+
+      // 清空
+      highWhiteRow.innerHTML = '';
+      highBlackRow.innerHTML = '';
+      lowWhiteRow.innerHTML  = '';
+      lowBlackRow.innerHTML  = '';
+      lsHighWhiteButtons.length = 0;
+      lsHighBlackButtons.length = 0;
+      lsLowWhiteButtons.length  = 0;
+      lsLowBlackButtons.length  = 0;
+
+      const { highWhite, lowWhite, highBlack, lowBlack } = getLsNotes();
+
+      // === 較高八度白鍵 ===
+      highWhite.forEach(({ note, i }) => {
+        const btn = buildLsKeyBtn(note, i, false, null);
+        highWhiteRow.appendChild(btn);
+        lsHighWhiteButtons.push({ btn, noteIndex: i });
+      });
+
+      // === 較高八度黑鍵 ===
+      const highBkWidthPct = 100 / highWhite.length * 0.62;
+      highBlack.forEach(({ note, i, mapItem }) => {
+        const btn = buildLsKeyBtn(note, i, true, mapItem.key);
+        const leftPct = calcBlackKeyLeft(note.midi, highWhite, highBkWidthPct);
+        btn.style.left  = leftPct + '%';
+        btn.style.width = highBkWidthPct + '%';
+        highBlackRow.appendChild(btn);
+        lsHighBlackButtons.push({ btn, kc: mapItem.key, noteIndex: i });
+      });
+
+      // === 基礎八度白鍵 ===
+      lowWhite.forEach(({ note, i }) => {
+        const btn = buildLsKeyBtn(note, i, false, null);
+        lowWhiteRow.appendChild(btn);
+        lsLowWhiteButtons.push({ btn, noteIndex: i });
+      });
+
+      // === 基礎八度黑鍵 ===
+      const lowBkWidthPct = 100 / lowWhite.length * 0.62;
+      lowBlack.forEach(({ note, i, mapItem }) => {
+        const btn = buildLsKeyBtn(note, i, true, mapItem.key);
+        const leftPct = calcBlackKeyLeft(note.midi, lowWhite, lowBkWidthPct);
+        btn.style.left  = leftPct + '%';
+        btn.style.width = lowBkWidthPct + '%';
+        lowBlackRow.appendChild(btn);
+        lsLowBlackButtons.push({ btn, kc: mapItem.key, noteIndex: i });
+      });
+    }
+
+    function updateLandscapeLabels() {
+      const { highWhite, lowWhite, highBlack, lowBlack } = getLsNotes();
+
+      lsHighWhiteButtons.forEach((item, j) => {
+        if (!item.btn) return;
+        const data = highWhite[j];
+        if (!data) return;
+        item.noteIndex = data.i;
+        item.btn.dataset.lsIndex = data.i;
+        item.btn.setAttribute('aria-label',
+          `橫屏音階按鍵 ${data.note.solfege}，${data.note.noteName}，${data.note.freq.toFixed(1)} Hz`);
+        item.btn.querySelector('.ls-key-note-name').textContent = data.note.noteName;
+        item.btn.querySelector('.ls-key-solfege').textContent   = data.note.solfege;
+      });
+
+      lsLowWhiteButtons.forEach((item, j) => {
+        if (!item.btn) return;
+        const data = lowWhite[j];
+        if (!data) return;
+        item.noteIndex = data.i;
+        item.btn.dataset.lsIndex = data.i;
+        item.btn.setAttribute('aria-label',
+          `橫屏音階按鍵 ${data.note.solfege}，${data.note.noteName}，${data.note.freq.toFixed(1)} Hz`);
+        item.btn.querySelector('.ls-key-note-name').textContent = data.note.noteName;
+        item.btn.querySelector('.ls-key-solfege').textContent   = data.note.solfege;
+      });
+
+      const highBkWidthPct = lsHighWhiteButtons.length > 0 ? 100 / lsHighWhiteButtons.length * 0.62 : 6.2;
+      const lowBkWidthPct  = lsLowWhiteButtons.length  > 0 ? 100 / lsLowWhiteButtons.length * 0.62  : 6.2;
+
+      lsHighBlackButtons.forEach((item, j) => {
+        if (!item.btn) return;
+        const data = highBlack[j];
+        if (!data) return;
+        item.kc = data.mapItem.key;
+        item.noteIndex = data.i;
+        item.btn.dataset.lsKc = data.mapItem.key;
+        const leftPct = calcBlackKeyLeft(data.note.midi, highWhite, highBkWidthPct);
+        item.btn.style.left = leftPct + '%';
+        item.btn.setAttribute('aria-label',
+          `橫屏黑鍵 ${data.note.solfege}，${data.note.noteName}，${data.note.freq.toFixed(1)} Hz`);
+        item.btn.querySelector('.ls-key-extra-name').textContent = data.note.noteName;
+      });
+
+      lsLowBlackButtons.forEach((item, j) => {
+        if (!item.btn) return;
+        const data = lowBlack[j];
+        if (!data) return;
+        item.kc = data.mapItem.key;
+        item.noteIndex = data.i;
+        item.btn.dataset.lsKc = data.mapItem.key;
+        const leftPct = calcBlackKeyLeft(data.note.midi, lowWhite, lowBkWidthPct);
+        item.btn.style.left = leftPct + '%';
+        item.btn.setAttribute('aria-label',
+          `橫屏黑鍵 ${data.note.solfege}，${data.note.noteName}，${data.note.freq.toFixed(1)} Hz`);
+        item.btn.querySelector('.ls-key-extra-name').textContent = data.note.noteName;
+      });
+    }
+
+    
+
+    const activeLandscapeTouches = new Map();
+
+    function getLandscapeKeyFromPoint(touch) {
+      const el = document.elementFromPoint(touch.clientX, touch.clientY);
+      if (!el) return null;
+
+      const row = el.closest('.piano-octave-row-wrap');
+      if (!row) return null;
+      const octave = row.id === 'ls-high-wrap' ? 'high' : 'low';
+
+      const blackBtn = el.closest('.ls-key-btn-extra');
+      if (blackBtn && blackBtn.dataset.lsKc) {
+        return { octave, isExtra: true, key: blackBtn.dataset.lsKc };
+      }
+
+      const whiteBtn = el.closest('.ls-key-btn');
+      if (whiteBtn && whiteBtn.dataset.lsIndex !== undefined) {
+        return { octave, isExtra: false, key: parseInt(whiteBtn.dataset.lsIndex, 10) + 1 };
+      }
+
+      return null;
+    }
+
+    function stopTrackedLandscapeTouch(identifier) {
+      const active = activeLandscapeTouches.get(identifier);
+      if (!active) return;
+      if (active.isExtra) stopExtraNote(active.key);
+      else stopNote(active.key);
+      activeLandscapeTouches.delete(identifier);
+    }
+
+    function startOrMoveLandscapeTouch(touch) {
+      const next = getLandscapeKeyFromPoint(touch);
+      const previous = activeLandscapeTouches.get(touch.identifier);
+
+      if (!next) {
+        stopTrackedLandscapeTouch(touch.identifier);
+        return;
+      }
+
+      if (
+        previous &&
+        previous.octave === next.octave &&
+        previous.isExtra === next.isExtra &&
+        previous.key === next.key
+      ) return;
+
+      if (previous) stopTrackedLandscapeTouch(touch.identifier);
+      if (next.isExtra) startExtraNote(next.key);
+      else startNote(next.key);
+      activeLandscapeTouches.set(touch.identifier, next);
+    }
+
+    function initLandscapeTouchHandlers() {
+      const landscapeGrid = document.getElementById('piano-landscape-grid');
+      if (!landscapeGrid) return;
+
+      landscapeGrid.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        Array.from(e.changedTouches).forEach(startOrMoveLandscapeTouch);
       }, { passive: false });
 
-      extraKeysRow.addEventListener('touchend', (e) => {
+      landscapeGrid.addEventListener('touchmove', (e) => {
         e.preventDefault();
-        if (touchActiveExtraKc !== null) { stopExtraNote(touchActiveExtraKc); touchActiveExtraKc = null; }
-      });
+        Array.from(e.changedTouches).forEach(startOrMoveLandscapeTouch);
+      }, { passive: false });
 
-      extraKeysRow.addEventListener('touchcancel', () => {
-        if (touchActiveExtraKc !== null) { stopExtraNote(touchActiveExtraKc); touchActiveExtraKc = null; }
-      });
+      landscapeGrid.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        Array.from(e.changedTouches).forEach(touch => stopTrackedLandscapeTouch(touch.identifier));
+      }, { passive: false });
+
+      landscapeGrid.addEventListener('touchcancel', (e) => {
+        e.preventDefault();
+        Array.from(e.changedTouches).forEach(touch => stopTrackedLandscapeTouch(touch.identifier));
+      }, { passive: false });
+    }
+
+    /**
+     * 偵測手機橫屏並切換 UI
+     * 手機橫屏條件：height < 500 且 orientation === landscape 且 width < 932
+     */
+    function checkLandscapeMode() {
+      // 若使用者手動開啟強制橫向排版，不覆蓋其設定
+      if (isForceLandscape) return;
+
+      const mq = window.matchMedia('(max-height: 500px) and (orientation: landscape) and (max-width: 932px)');
+      const newLs = mq.matches;
+
+      if (newLs === isLandscapeMobile) return;
+      isLandscapeMobile = newLs;
+
+      const scrollContainer = document.querySelector('.piano-scroll-container');
+      const lsGrid = document.getElementById('piano-landscape-grid');
+      if (!lsGrid) return;
+
+      if (isLandscapeMobile) {
+        // 切換到橫屏四排模式
+        scrollContainer && (scrollContainer.style.display = 'none');
+        lsGrid.style.display = 'flex';
+        buildLandscapePiano();
+      } else {
+        // 回到一般模式
+        scrollContainer && (scrollContainer.style.display = '');
+        lsGrid.style.display = 'none';
+      }
+    }
+
+    /* ============================================================
+       FORCE LANDSCAPE MODE — 橫向排版切換按鈕邏輯
+    ============================================================ */
+    let isForceLandscape = false;
+
+    function setForceLandscape(on) {
+      isForceLandscape = on;
+      document.body.classList.toggle('force-landscape-mode', on);
+
+      const btn = document.getElementById('force-landscape-btn');
+      const btnText = document.getElementById('force-landscape-btn-text');
+      if (btn) {
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        btn.setAttribute('aria-label',
+          on ? '已開啟橫向排版，點擊返回直式排版' : '切換橫向排版，目前：直式排版');
+        btn.classList.toggle('btn-primary', on);
+        btn.classList.toggle('active', on);
+        btn.classList.toggle('btn-secondary', !on);
+      }
+      if (btnText) {
+        btnText.textContent = on ? '返回直式' : '橫向排版';
+      }
+
+      const scrollContainer = document.querySelector('.piano-scroll-container');
+      const lsGrid = document.getElementById('piano-landscape-grid');
+      if (!lsGrid) return;
+
+      if (on) {
+        // 強制展示橫向四排鋼琴（全螢幕覆蓋）
+        isLandscapeMobile = true;
+        scrollContainer && (scrollContainer.style.display = 'none');
+        lsGrid.style.display = 'flex';
+        buildLandscapePiano();
+        // 防止背景頁面捲動
+        document.body.style.overflow = 'hidden';
+        // 確保彈奏狀態為開啟
+        if (!isPlaying) {
+          ensureAudioCtx();
+          setPlaying(true);
+        }
+      } else {
+        // 關閉強制模式，恢復自動偵測
+        document.body.style.overflow = '';
+        isLandscapeMobile = false;
+        scrollContainer && (scrollContainer.style.display = '');
+        lsGrid.style.display = 'none';
+        // 重新偵測是否真實橫屏
+        checkLandscapeMode();
+      }
     }
 
     function updateKeyLabels() {
@@ -1990,6 +3023,8 @@
         btn.querySelector('.key-solfege').textContent   = note.solfege;
       });
       updateExtraKeyLabels();
+      // 若目前為橫屏模式，同步更新橫屏鋼琴標籤
+      if (isLandscapeMobile) updateLandscapeLabels();
     }
 
     function updateExtraKeyLabels() {
@@ -2113,10 +3148,14 @@
       statusDot.classList.toggle('playing', on);
 
       if (on) {
-        statusText.innerHTML = '彈奏中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續';
+        statusText.innerHTML = isRecording 
+          ? '錄音中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續' 
+          : '彈奏中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續';
         playBtn.setAttribute('aria-label', '停止彈奏（快速鍵：Space 或 Enter）');
       } else {
-        statusText.innerHTML = '待機中 — 點擊「開始彈奏」或按 <kbd class="kbd-hint">Space</kbd> 開始';
+        statusText.innerHTML = isRecording
+          ? '錄音中 (待機) — 點擊「開始彈奏」以彈奏聲音'
+          : '待機中 — 點擊「開始彈奏」或按 <kbd class="kbd-hint">Space</kbd> 開始';
         playBtn.setAttribute('aria-label', '開始彈奏（快速鍵：Space 或 Enter）');
         stopAllNotes();
       }
@@ -2129,6 +3168,424 @@
       extraKeyButtons.forEach(btn => {
         btn.disabled = false;
         btn.setAttribute('aria-disabled', 'false');
+      });
+    }
+
+    /* ============================================================
+       RECORDING ENGINE & WAV ENCODING
+    ============================================================ */
+    let isRecording = false;
+    let mediaRecorder = null;
+    let recordedChunks = [];
+
+    // WAV 檔案編碼轉換器
+    function audioBufferToWav(buffer) {
+      const numOfChan = buffer.numberOfChannels;
+      const sampleRate = buffer.sampleRate;
+      const format = 1; // 1 = raw 16-bit PCM
+      const bitDepth = 16;
+      
+      let result;
+      if (numOfChan === 2) {
+        result = interleave(buffer.getChannelData(0), buffer.getChannelData(1));
+      } else {
+        result = buffer.getChannelData(0);
+      }
+      
+      const bufferLength = result.length * 2;
+      const bufferArray = new ArrayBuffer(44 + bufferLength);
+      const view = new DataView(bufferArray);
+      
+      // RIFF identifier
+      writeString(view, 0, 'RIFF');
+      // file length
+      view.setUint32(4, 36 + bufferLength, true);
+      // RIFF type
+      writeString(view, 8, 'WAVE');
+      // format chunk identifier
+      writeString(view, 12, 'fmt ');
+      // format chunk length
+      view.setUint32(16, 16, true);
+      // sample format (PCM)
+      view.setUint16(20, format, true);
+      // channel count
+      view.setUint16(22, numOfChan, true);
+      // sample rate
+      view.setUint32(24, sampleRate, true);
+      // byte rate
+      view.setUint32(28, sampleRate * numOfChan * (bitDepth / 8), true);
+      // block align
+      view.setUint16(32, numOfChan * (bitDepth / 8), true);
+      // bits per sample
+      view.setUint16(34, bitDepth, true);
+      // data chunk identifier
+      writeString(view, 36, 'data');
+      // data chunk length
+      view.setUint32(40, bufferLength, true);
+      
+      floatTo16BitPCM(view, 44, result);
+      
+      return new Blob([view], { type: 'audio/wav' });
+    }
+
+    function interleave(inputL, inputR) {
+      const length = inputL.length + inputR.length;
+      const result = new Float32Array(length);
+      let index = 0;
+      let inputIndex = 0;
+      while (index < length) {
+        result[index++] = inputL[inputIndex];
+        result[index++] = inputR[inputIndex];
+        inputIndex++;
+      }
+      return result;
+    }
+
+    function writeString(view, offset, string) {
+      for (let i = 0; i < string.length; i++) {
+        view.setUint8(offset + i, string.charCodeAt(i));
+      }
+    }
+
+    function floatTo16BitPCM(output, offset, input) {
+      for (let i = 0; i < input.length; i++, offset += 2) {
+        let s = Math.max(-1, Math.min(1, input[i]));
+        output.setInt16(offset, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+      }
+    }
+
+    // 播放速度控制與同步聯動
+    function updatePlaybackSpeed(value) {
+      let speed = parseFloat(value);
+      if (isNaN(speed)) return;
+      speed = Math.max(0.25, Math.min(3.0, speed));
+      
+      const recordingPlayer = document.getElementById('recording-player');
+      if (recordingPlayer) {
+        recordingPlayer.playbackRate = speed;
+      }
+
+      // 同步滑桿
+      const slider = document.getElementById('player-speed-slider');
+      if (slider) {
+        slider.value = speed;
+        slider.setAttribute('aria-valuenow', speed);
+        slider.setAttribute('aria-valuetext', `${speed.toFixed(2)} 倍速`);
+      }
+
+      // 同步手動輸入框
+      const input = document.getElementById('player-speed-input');
+      if (input && parseFloat(input.value) !== speed) {
+        input.value = speed.toFixed(2);
+      }
+
+      // 同步下拉選單 (根據數值尋找並選擇正確選項，避免 1.0 等小數與 1 的字串不匹配)
+      const select = document.getElementById('player-speed-select');
+      if (select) {
+        const targetOpt = Array.from(select.options).find(opt => parseFloat(opt.value) === speed);
+        if (targetOpt) {
+          select.value = targetOpt.value;
+        } else {
+          select.value = "";
+        }
+      }
+    }
+
+    function startRecording() {
+      ensureAudioCtx();
+
+      isRecording = true;
+      updateRecordButtonUI();
+      updateStatusText();
+
+      // 延遲 300ms 正式開始捕捉與錄製
+      setTimeout(() => {
+        if (!isRecording) return; // 若在此期間已被使用者取消
+
+        if (!recorderDestination) {
+          recorderDestination = audioCtx.createMediaStreamDestination();
+        }
+
+        const recordSource = document.getElementById('record-source-select').value;
+        
+        instrumentGain.disconnect();
+        metroGain.disconnect();
+
+        instrumentGain.connect(audioCtx.destination);
+        metroGain.connect(audioCtx.destination);
+
+        instrumentGain.connect(recorderDestination);
+        if (recordSource === 'all') {
+          metroGain.connect(recorderDestination);
+        }
+
+        recordedChunks = [];
+        const options = { mimeType: 'audio/webm' };
+        try {
+          if (MediaRecorder.isTypeSupported('audio/webm')) {
+            mediaRecorder = new MediaRecorder(recorderDestination.stream, options);
+          } else {
+            mediaRecorder = new MediaRecorder(recorderDestination.stream);
+          }
+        } catch (e) {
+          console.error("Failed to create MediaRecorder:", e);
+          alert("目前瀏覽器不支援 Web Audio 錄音功能");
+          isRecording = false;
+          updateRecordButtonUI();
+          updateStatusText();
+          return;
+        }
+
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data && event.data.size > 0) {
+            recordedChunks.push(event.data);
+          }
+        };
+
+        mediaRecorder.onstop = () => {
+          if (recordedChunks.length === 0) return;
+          const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+          
+          // 將 WebM 解碼後轉換為 WAV 檔案並生成播放下載區域
+          const fileReader = new FileReader();
+          fileReader.onloadend = () => {
+            const arrayBuffer = fileReader.result;
+            audioCtx.decodeAudioData(arrayBuffer, (audioBuffer) => {
+              const wavBlob = audioBufferToWav(audioBuffer);
+              const wavUrl = URL.createObjectURL(wavBlob);
+              
+              const recordingPlayer = document.getElementById('recording-player');
+              if (recordingPlayer) {
+                recordingPlayer.src = wavUrl;
+                // 維持當前設定的速度
+                const speedVal = parseFloat(document.getElementById('player-speed-slider').value) || 1.0;
+                recordingPlayer.playbackRate = speedVal;
+              }
+
+              // 重置進度條及顯示時間
+              const progressSlider = document.getElementById('player-progress-slider');
+              if (progressSlider) {
+                progressSlider.value = 0;
+                progressSlider.max = 0;
+                progressSlider.setAttribute('aria-valuenow', 0);
+              }
+              const timeCurrent = document.getElementById('player-time-current');
+              const timeTotal = document.getElementById('player-time-total');
+              if (timeCurrent) timeCurrent.textContent = "0:00";
+              if (timeTotal) timeTotal.textContent = "0:00";
+              
+              const downloadLink = document.getElementById('recording-download-link');
+              if (downloadLink) {
+                downloadLink.href = wavUrl;
+                const now = new Date();
+                const dateStr = now.getFullYear() +
+                                String(now.getMonth() + 1).padStart(2, '0') +
+                                String(now.getDate()).padStart(2, '0') + '_' +
+                                String(now.getHours()).padStart(2, '0') +
+                                String(now.getMinutes()).padStart(2, '0');
+                downloadLink.download = `錄音檔_${dateStr}.wav`;
+              }
+              
+              // 展開並顯示播放下載區域
+              const playbackPanel = document.getElementById('recording-playback-panel');
+              if (playbackPanel) {
+                playbackPanel.style.display = 'block';
+              }
+              
+              // 語音播報：僅限螢幕閱讀器提示，其他地方均不提示
+              const announceText = document.getElementById('recording-playback-announcer');
+              if (announceText) {
+                announceText.textContent = "錄音已結束，音訊已生成於下方";
+                // 播報完後 5 秒自動清空，以免下次錄音時內容不更新
+                setTimeout(() => {
+                  announceText.textContent = "";
+                }, 5000);
+              }
+            });
+          };
+          fileReader.readAsArrayBuffer(blob);
+        };
+
+        mediaRecorder.start();
+      }, 300);
+    }
+
+    function stopRecording() {
+      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+        mediaRecorder.stop();
+      }
+      isRecording = false;
+      updateRecordButtonUI();
+      updateStatusText();
+    }
+
+    function toggleRecording() {
+      if (isRecording) {
+        stopRecording();
+      } else {
+        startRecording();
+      }
+    }
+
+    function updateRecordButtonUI() {
+      const btn = document.getElementById('btn-toggle-record');
+      const text = document.getElementById('record-btn-text');
+      const icon = document.getElementById('record-btn-icon');
+      if (!btn) return;
+
+      if (isRecording) {
+        btn.setAttribute('aria-pressed', 'true');
+        btn.setAttribute('aria-label', '停止錄音');
+        btn.classList.remove('btn-secondary');
+        btn.classList.add('btn-danger');
+        if (text) text.textContent = '停止錄音';
+        if (icon) icon.textContent = '⏹';
+      } else {
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-label', '開始錄音');
+        btn.classList.remove('btn-danger');
+        btn.classList.add('btn-secondary');
+        if (text) text.textContent = '開始錄音';
+        if (icon) icon.textContent = '🔴';
+      }
+    }
+
+    function updateStatusText() {
+      if (isPlaying) {
+        statusText.innerHTML = isRecording 
+          ? '錄音中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續' 
+          : '彈奏中 — 使用鍵盤彈奏或點擊下方按鍵 · 按住鍵時聲音持續';
+      } else {
+        statusText.innerHTML = isRecording
+          ? '錄音中 (待機) — 點擊「開始彈奏」以彈奏聲音'
+          : '待機中 — 點擊「開始彈奏」或按 <kbd class="kbd-hint">Space</kbd> 開始';
+      }
+    }
+
+    // 時間格式化輔助函數 (格式：分:秒，如 1:12)
+    function formatTime(seconds) {
+      if (isNaN(seconds) || !isFinite(seconds)) return "0:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins}:${String(secs).padStart(2, '0')}`;
+    }
+
+    // 播放器控制項初始化註冊
+    function initRecordingPlayerControls() {
+      const player = document.getElementById('recording-player');
+      const playBtn = document.getElementById('btn-player-play');
+      const playIcon = document.getElementById('player-play-icon');
+      const playText = document.getElementById('player-play-text');
+      const backBtn = document.getElementById('btn-player-back');
+      const forwardBtn = document.getElementById('btn-player-forward');
+      
+      const speedSelect = document.getElementById('player-speed-select');
+      const speedInput = document.getElementById('player-speed-input');
+      const speedSlider = document.getElementById('player-speed-slider');
+
+      const progressSlider = document.getElementById('player-progress-slider');
+      const timeCurrent = document.getElementById('player-time-current');
+      const timeTotal = document.getElementById('player-time-total');
+
+      if (!player || !playBtn) return;
+
+      // 監聽播放時間更新
+      player.addEventListener('timeupdate', () => {
+        const current = player.currentTime;
+        const total = player.duration || 0;
+        
+        if (timeCurrent) timeCurrent.textContent = formatTime(current);
+        
+        if (progressSlider) {
+          progressSlider.value = Math.floor(current);
+          progressSlider.setAttribute('aria-valuenow', Math.floor(current));
+          progressSlider.setAttribute('aria-valuetext', `${formatTime(current)} / ${formatTime(total)}`);
+        }
+      });
+
+      // 監聽音軌元數據載入
+      player.addEventListener('loadedmetadata', () => {
+        const total = player.duration || 0;
+        if (timeTotal) timeTotal.textContent = formatTime(total);
+        if (progressSlider) {
+          progressSlider.max = Math.floor(total);
+          progressSlider.setAttribute('aria-valuemax', Math.floor(total));
+        }
+      });
+
+      // 進度條拉動變更時間
+      if (progressSlider) {
+        progressSlider.addEventListener('input', (e) => {
+          player.currentTime = parseFloat(e.target.value);
+        });
+
+        // 鍵盤方向鍵控制進度：上、右鍵快轉 5 秒，下、左鍵倒轉 5 秒
+        progressSlider.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+            e.preventDefault();
+            player.currentTime = Math.min(player.duration || 0, player.currentTime + 5);
+          } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+            e.preventDefault();
+            player.currentTime = Math.max(0, player.currentTime - 5);
+          }
+        });
+      }
+
+      // 播放/暫停
+      playBtn.addEventListener('click', () => {
+        if (player.paused) {
+          player.play();
+          playIcon.textContent = "⏸";
+          playText.textContent = "暫停播放";
+          playBtn.setAttribute('aria-label', '暫停播放');
+        } else {
+          player.pause();
+          playIcon.textContent = "▶";
+          playText.textContent = "播放";
+          playBtn.setAttribute('aria-label', '播放錄音');
+        }
+      });
+
+      player.addEventListener('ended', () => {
+        playIcon.textContent = "▶";
+        playText.textContent = "播放";
+        playBtn.setAttribute('aria-label', '播放錄音');
+      });
+
+      // 倒轉 10 秒
+      backBtn.addEventListener('click', () => {
+        player.currentTime = Math.max(0, player.currentTime - 10);
+      });
+
+      // 快轉 10 秒
+      forwardBtn.addEventListener('click', () => {
+        player.currentTime = Math.min(player.duration || 0, player.currentTime + 10);
+      });
+
+      // 速度變更監聽器 - 下拉選單
+      speedSelect.addEventListener('change', (e) => {
+        updatePlaybackSpeed(e.target.value);
+      });
+
+      // 速度變更監聽器 - 手動數字輸入
+      speedInput.addEventListener('input', (e) => {
+        updatePlaybackSpeed(e.target.value);
+      });
+
+      // 速度變更監聽器 - 滑桿
+      speedSlider.addEventListener('input', (e) => {
+        updatePlaybackSpeed(e.target.value);
+      });
+
+      // 滑桿的鍵盤上下鍵客製化步進調整 (0.05 倍)
+      speedSlider.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowRight') {
+          e.preventDefault();
+          updatePlaybackSpeed(parseFloat(speedSlider.value) + 0.05);
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') {
+          e.preventDefault();
+          updatePlaybackSpeed(parseFloat(speedSlider.value) - 0.05);
+        }
       });
     }
 
@@ -2184,8 +3641,34 @@
       if (isControl) return;
 
       const code = e.code;
+      const activeEl = document.activeElement;
+      const isKeyBtnFocused = activeEl && activeEl.classList.contains('key-btn');
 
-      // Prevent default for all our handled keys (excluding Enter, we handle Enter specially below)
+      // If a note button is currently focused and Enter or Space is pressed:
+      if (isKeyBtnFocused && (e.key === 'Enter' || e.key === ' ' || code === 'Space')) {
+        e.preventDefault();
+        if (e.repeat) return; // Prevent repeated clicks, sustain tone continuously
+
+        if (activeEl.classList.contains('key-btn-extra')) {
+          const kc = activeEl.dataset.keychar;
+          if (kc && !extraPressedKeys.has(kc)) {
+            extraPressedKeys.add(kc);
+            startExtraNote(kc);
+          }
+        } else {
+          const idx = parseInt(activeEl.dataset.index, 10);
+          if (!isNaN(idx)) {
+            const keyChar = PRIMARY_KEY_MAP[idx].key;
+            if (!pressedKeys.has(keyChar)) {
+              pressedKeys.add(keyChar);
+              startNote(idx + 1);
+            }
+          }
+        }
+        return;
+      }
+
+      // Prevent default for all our handled keys (excluding Enter, which is handled specially)
       const handledCodes = [
         'Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal',
         'KeyQ', 'KeyW', 'KeyR', 'KeyT', 'KeyY', 'KeyI', 'KeyO', 'BracketLeft', 'BracketRight',
@@ -2231,28 +3714,9 @@
       if (e.key === 'ArrowUp') { if (isPlaying) changeOctave(+1); return; }
       if (e.key === 'ArrowDown') { if (isPlaying) changeOctave(-1); return; }
       
-      // Handle Enter key specially
+      // Handle Enter key specially when NOT focused on a note button
       if (e.key === 'Enter') {
-        const activeEl = document.activeElement;
-        if (activeEl && activeEl.classList.contains('key-btn')) {
-          e.preventDefault();
-          if (activeEl.classList.contains('key-btn-extra')) {
-            const kc = activeEl.dataset.keychar;
-            if (!extraPressedKeys.has(kc)) {
-              extraPressedKeys.add(kc);
-              startExtraNote(kc);
-            }
-          } else {
-            const idx = parseInt(activeEl.dataset.index, 10);
-            if (!isNaN(idx)) {
-              const keyChar = PRIMARY_KEY_MAP[idx].key;
-              if (!pressedKeys.has(keyChar)) {
-                pressedKeys.add(keyChar);
-                startNote(idx + 1);
-              }
-            }
-          }
-        } else if (activeEl === playBtn || activeEl === document.body || activeEl === document.documentElement) {
+        if (activeEl === playBtn || activeEl === document.body || activeEl === document.documentElement) {
           e.preventDefault();
           ensureAudioCtx();
           setPlaying(!isPlaying);
@@ -2287,6 +3751,30 @@
 
     document.addEventListener('keyup', (e) => {
       const code = e.code;
+      const activeEl = document.activeElement;
+      const isKeyBtnFocused = activeEl && activeEl.classList.contains('key-btn');
+
+      // Handle release of Enter / Space on focused note button
+      if (isKeyBtnFocused && (e.key === 'Enter' || e.key === ' ' || code === 'Space')) {
+        e.preventDefault();
+        if (activeEl.classList.contains('key-btn-extra')) {
+          const kc = activeEl.dataset.keychar;
+          if (kc && extraPressedKeys.has(kc)) {
+            extraPressedKeys.delete(kc);
+            stopExtraNote(kc);
+          }
+        } else {
+          const idx = parseInt(activeEl.dataset.index, 10);
+          if (!isNaN(idx)) {
+            const keyChar = PRIMARY_KEY_MAP[idx].key;
+            if (pressedKeys.has(keyChar)) {
+              pressedKeys.delete(keyChar);
+              stopNote(idx + 1);
+            }
+          }
+        }
+        return;
+      }
 
       if (code === 'Space') {
         if (spaceLongPressTimer) {
@@ -2308,28 +3796,8 @@
         e.preventDefault();
       }
 
-      // Handle Enter key release
+      // Handle Enter key release when NOT focused on a note button
       if (e.key === 'Enter') {
-        const activeEl = document.activeElement;
-        if (activeEl && activeEl.classList.contains('key-btn')) {
-          e.preventDefault();
-          if (activeEl.classList.contains('key-btn-extra')) {
-            const kc = activeEl.dataset.keychar;
-            if (extraPressedKeys.has(kc)) {
-              extraPressedKeys.delete(kc);
-              stopExtraNote(kc);
-            }
-          } else {
-            const idx = parseInt(activeEl.dataset.index, 10);
-            if (!isNaN(idx)) {
-              const keyChar = PRIMARY_KEY_MAP[idx].key;
-              if (pressedKeys.has(keyChar)) {
-                pressedKeys.delete(keyChar);
-                stopNote(idx + 1);
-              }
-            }
-          }
-        }
         return;
       }
 
@@ -2434,7 +3902,6 @@
     let metroTimerID = null;
     const metroLookahead = 25.0;
     const metroScheduleAheadTime = 0.1;
-    let metroVolTimeout = null;
     let cachedBeatDots = [];
 
     // DOM 元素快取
@@ -2452,7 +3919,6 @@
     const metroToggleFlash = document.getElementById('toggle-flash');
     const metroToggleAccent = document.getElementById('toggle-accent');
     const metroVisualIndicatorsContainer = document.getElementById('visual-indicators');
-    const metroAnnouncer = document.getElementById('metronome-announcer');
 
     // BPM 按鈕
     const metroBtnSub5 = document.getElementById('btn-sub-5');
@@ -2461,9 +3927,8 @@
     const metroBtnAdd5 = document.getElementById('btn-add-5');
 
     function initMetroAudio() {
-      if (!metroAudioCtx) {
-        metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
+      ensureAudioCtx();
+      metroAudioCtx = audioCtx;
     }
 
     function scheduleMetroNote(beatNumber, time) {
@@ -2473,7 +3938,7 @@
       const gainNode = metroAudioCtx.createGain();
 
       osc.connect(gainNode);
-      gainNode.connect(metroAudioCtx.destination);
+      gainNode.connect(metroGain);
 
       const isFirstBeat = (beatNumber === 0);
 
@@ -2584,10 +4049,6 @@
       metroPanel.classList.remove('pulse-accent', 'pulse-normal');
     }
 
-    function metroAnnounce(message, priority = 'polite') {
-      // 語音播報功能已停用，保持與原程式碼結構一致
-    }
-
     function metroPlay() {
       initMetroAudio();
       
@@ -2607,7 +4068,6 @@
       metroBtnTogglePlay.classList.add('btn-primary');
 
       metroScheduler();
-      metroAnnounce("節拍器已啟動", "polite");
     }
 
     function metroStop() {
@@ -2622,7 +4082,6 @@
       metroBtnTogglePlay.classList.remove('btn-primary');
       metroBtnTogglePlay.classList.add('btn-secondary');
 
-      metroAnnounce("節拍器已暫停", "polite");
     }
 
     function metroTogglePlay() {
@@ -2637,16 +4096,12 @@
       const cleanValue = Math.max(1, Math.min(3000, parseInt(value) || 90));
       metroState.bpm = cleanValue;
 
-      if (cleanValue > parseInt(metroBpmSlider.max)) {
-        metroBpmSlider.max = cleanValue;
-        metroBpmSlider.setAttribute('aria-valuemax', cleanValue);
-      }
-
-      metroBpmSlider.value = cleanValue;
+      metroBpmSlider.value = Math.min(cleanValue, 450);
       metroBpmDisplay.textContent = cleanValue;
       metroBpmSrReader.textContent = `每分鐘拍數：${cleanValue} 拍`;
 
-      metroBpmSlider.setAttribute('aria-valuenow', cleanValue);
+      const sliderValue = Math.min(cleanValue, 450);
+      metroBpmSlider.setAttribute('aria-valuenow', sliderValue);
       metroBpmSlider.setAttribute('aria-valuetext', `${cleanValue} BPM`);
       
       const manualInput = document.getElementById('bpm-manual-input');
@@ -2747,19 +4202,10 @@
       metroState.beatsPerMeasure = val;
       metroState.currentBeat = 0;
       setupMetroVisualIndicators();
-      metroAnnounce(`拍號已更改為 ${val} 拍`, "polite");
     });
 
     metroSoundEngineSelect.addEventListener('change', (e) => {
-      const val = e.target.value;
-      metroState.soundType = val;
-      let label = "";
-      if (val === 'woodblock') label = "仿真木魚";
-      else if (val === 'claves') label = "清脆響棒";
-      else if (val === 'chime') label = "三角鐵琴";
-      else if (val === 'drum') label = "深沉爵士鼓";
-      else label = "電子嗶嗶聲";
-      metroAnnounce(`音色已更改為 ${label}`, "polite");
+      metroState.soundType = e.target.value;
     });
 
     metroVolumeControl.addEventListener('input', (e) => {
@@ -2772,10 +4218,6 @@
       metroVolumeControl.setAttribute('aria-valuenow', val);
       metroVolumeControl.setAttribute('aria-valuetext', `音量百分之 ${val}`);
       
-      if (metroVolTimeout) clearTimeout(metroVolTimeout);
-      metroVolTimeout = setTimeout(() => {
-        metroAnnounce(`音量調整為百分之 ${val}`, "polite");
-      }, 300);
     });
 
     metroToggleFlash.addEventListener('click', () => {
@@ -2785,14 +4227,12 @@
       if (!metroState.useFlash) {
         clearMetroVisualFlash();
       }
-      metroAnnounce(metroState.useFlash ? "已開啟視覺閃爍" : "已關閉視覺閃爍", "polite");
     });
 
     metroToggleAccent.addEventListener('click', () => {
       metroState.useAccent = !metroState.useAccent;
       metroToggleAccent.setAttribute('aria-pressed', metroState.useAccent ? 'true' : 'false');
       metroToggleAccent.setAttribute('aria-label', `第一拍重音效果：${metroState.useAccent ? '已開啟' : '已關閉'}，點擊切換`);
-      metroAnnounce(metroState.useAccent ? "已開啟第一拍重音" : "已關閉第一拍重音", "polite");
     });
 
     /* Device notice initialization */
@@ -2813,17 +4253,75 @@
       }
     }
 
+    /* Details expand/collapse toggle label update */
+    function initShortcutDetailsToggle() {
+      const shortcutDetails = document.getElementById('shortcut-details');
+      const summaryToggleText = document.getElementById('summary-toggle-text');
+      if (shortcutDetails && summaryToggleText) {
+        shortcutDetails.addEventListener('toggle', () => {
+          if (shortcutDetails.open) {
+            summaryToggleText.textContent = '收合操作說明對照表';
+          } else {
+            summaryToggleText.textContent = '展開操作說明對照表';
+          }
+        });
+      }
+    }
+
     /* ============================================================
        INIT
     ============================================================ */
     buildKeyButtons();
-    initTouchHandlers();   // register container-level touch listeners
+    initTouchHandlers();
+    initLandscapeTouchHandlers();
+    checkLandscapeMode();       // initial check for landscape on load
     initDeviceNotice();
+    initShortcutDetailsToggle();
     setPlaying(true); // initialize UI state to default ON
+
+    // 橫向排版切換按鈕
+    const forceLsBtn = document.getElementById('force-landscape-btn');
+    if (forceLsBtn) {
+      let _forceLsBtnTouchHandled = false;
+      forceLsBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        _forceLsBtnTouchHandled = true;
+        setForceLandscape(!isForceLandscape);
+      }, { passive: false });
+      forceLsBtn.addEventListener('click', () => {
+        if (_forceLsBtnTouchHandled) { _forceLsBtnTouchHandled = false; return; }
+        setForceLandscape(!isForceLandscape);
+      });
+    }
+
+    // 監聽螢幕方向改變與視窗大小改變
+    window.addEventListener('resize', checkLandscapeMode);
+    window.addEventListener('orientationchange', () => {
+      // orientationchange 後需等待 resize 穩定再偵測
+      setTimeout(checkLandscapeMode, 150);
+    });
 
     // 初始化節拍器
     setupMetroVisualIndicators();
     updateMetroBpm(90);
+
+    // 錄音按鈕事件監聽
+    const forceRecordBtn = document.getElementById('btn-toggle-record');
+    if (forceRecordBtn) {
+      let _recordBtnTouchHandled = false;
+      forceRecordBtn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        _recordBtnTouchHandled = true;
+        toggleRecording();
+      }, { passive: false });
+      forceRecordBtn.addEventListener('click', () => {
+        if (_recordBtnTouchHandled) { _recordBtnTouchHandled = false; return; }
+        toggleRecording();
+      });
+    }
+
+    // 初始化錄音播放器控制監聽
+    initRecordingPlayerControls();
 
   })();
 </script>
