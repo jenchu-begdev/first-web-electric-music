@@ -1295,7 +1295,17 @@
       box-shadow: 0 0 30px rgba(6,182,212,0.25), 0 8px 40px rgba(0,0,0,.45);
       border-color: var(--accent2);
     }
+      /* Respect the user's operating-system preference for reduced motion. */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 </head>
 <body>
@@ -1317,7 +1327,7 @@
       歡迎使用免費線上虛擬樂器，可用 Tab 鍵導覽至各音階按鍵，按 Enter 或 Space 彈奏。
     </div>
     <div id="mobile-notice" class="mobile-notice" style="display: none;" role="note">
-      歡迎使用免費線上虛擬樂器，請點選下方案件進行彈奏。
+      歡迎使用免費線上虛擬樂器，請點選下方按鍵進行彈奏。
     </div>
 
     <!-- Header -->
@@ -1454,8 +1464,8 @@
           <div class="ctrl-group">
             <label for="bpm-slider">⏱️ 調整速度 (BPM)</label>
             <div class="bpm-adjust-row">
-              <button class="btn btn-secondary btn-icon" id="btn-sub-5" type="button" aria-label="減少 5 BPM" title="減少 5 BPM">-5</button>
-              <button class="btn btn-secondary btn-icon" id="btn-sub-1" type="button" aria-label="減少 1 BPM" title="減少 1 BPM">-1</button>
+              <button class="btn btn-secondary btn-icon" id="btn-sub-5" type="button" aria-label="-5 BPM" title="-5 BPM">-5</button>
+              <button class="btn btn-secondary btn-icon" id="btn-sub-1" type="button" aria-label="-1 BPM" title="-1 BPM">-1</button>
               
               <div class="bpm-slider-container">
                 <input 
@@ -1472,8 +1482,8 @@
                 />
               </div>
 
-              <button class="btn btn-secondary btn-icon" id="btn-add-1" type="button" aria-label="增加 1 BPM" title="增加 1 BPM">+1</button>
-              <button class="btn btn-secondary btn-icon" id="btn-add-5" type="button" aria-label="增加 5 BPM" title="增加 5 BPM">+5</button>
+              <button class="btn btn-secondary btn-icon" id="btn-add-1" type="button" aria-label="+1 BPM" title="+1 BPM">+1</button>
+              <button class="btn btn-secondary btn-icon" id="btn-add-5" type="button" aria-label="+5 BPM" title="+5 BPM">+5</button>
               <button class="btn btn-secondary" id="btn-tap-tempo" type="button" aria-label="輕敲測速" title="輕敲測速">Tap</button>
             </div>
           </div>
@@ -1543,8 +1553,8 @@
               type="button"
               class="btn btn-secondary toggle-btn"
               id="toggle-flash"
-              aria-pressed="true"
-              aria-label="視覺閃爍提示：已開啟，點擊切換"
+              aria-pressed="false"
+              aria-label="視覺閃爍提示：已關閉，點擊切換"
             >
               <span>✦ 視覺閃爍提示</span>
               <span class="toggle-btn-desc">每次拍子時閃爍指示燈與面板</span>
@@ -1786,9 +1796,13 @@
             <span aria-hidden="true">10s ⏩</span>
           </button>
           
-          <a class="btn btn-primary" id="recording-download-link" href="#" style="text-decoration: none;" aria-label="下載 WAV 錄音檔">
-            <span aria-hidden="true">💾</span> 下載 WAV 檔案
-          </a>
+                      <a class="btn btn-primary" id="recording-download-link" href="#" style="text-decoration: none;" aria-label="下載 WAV 錄音檔">
+              <span aria-hidden="true">💾</span> 下載 WAV 檔案
+            </a>
+            <button class="btn btn-secondary" id="recording-share-button" type="button" aria-label="分享 WAV 錄音檔" hidden>
+              <span aria-hidden="true">↗</span> 分享 WAV 檔案
+            </button>
+
         </div>
 
         <!-- 播放速度控制組合 -->
@@ -3177,6 +3191,8 @@
     let isRecording = false;
     let mediaRecorder = null;
     let recordedChunks = [];
+    let currentWavBlob = null;
+    let currentWavFileName = '';
 
     // WAV 檔案編碼轉換器
     function audioBufferToWav(buffer) {
@@ -3291,7 +3307,45 @@
       }
     }
 
+function canShareWavFile(blob) {
+      if (!blob) return false;
+      if (typeof navigator.share !== 'function') return false;
+      try {
+        const file = new File([blob], currentWavFileName || 'recording.wav', { type: 'audio/wav' });
+        return navigator.canShare({ files: [file] });
+      } catch (error) {
+        return false;
+      }
+    }
+    function updateRecordingShareButton() {
+      const shareButton = document.getElementById('recording-share-button');
+      if (!shareButton) return;
+      shareButton.hidden = !canShareWavFile(currentWavBlob);
+    }
+
+    async function shareCurrentWav() {
+      if (!canShareWavFile(currentWavBlob)) return;
+      const file = new File(
+        [currentWavBlob],
+        currentWavFileName || 'recording.wav',
+        { type: 'audio/wav' }
+      );
+
+      try {
+        await navigator.share({
+          files: [file],
+          title: '錄音 WAV 檔案',
+          text: '分享錄好的 WAV 錄音檔'
+        });
+      } catch (error) {
+        if (error && error.name !== 'AbortError') {
+          console.error('WAV sharing failed:', error);
+        }
+      }
+    }
+
     function startRecording() {
+
       ensureAudioCtx();
 
       isRecording = true;
@@ -3352,8 +3406,9 @@
             const arrayBuffer = fileReader.result;
             audioCtx.decodeAudioData(arrayBuffer, (audioBuffer) => {
               const wavBlob = audioBufferToWav(audioBuffer);
+              currentWavBlob = wavBlob;
               const wavUrl = URL.createObjectURL(wavBlob);
-              
+
               const recordingPlayer = document.getElementById('recording-player');
               if (recordingPlayer) {
                 recordingPlayer.src = wavUrl;
@@ -3383,9 +3438,12 @@
                                 String(now.getDate()).padStart(2, '0') + '_' +
                                 String(now.getHours()).padStart(2, '0') +
                                 String(now.getMinutes()).padStart(2, '0');
-                downloadLink.download = `錄音檔_${dateStr}.wav`;
+                currentWavFileName = `錄音檔_${dateStr}.wav`;
+                downloadLink.download = currentWavFileName;
               }
-              
+
+              updateRecordingShareButton();
+
               // 展開並顯示播放下載區域
               const playbackPanel = document.getElementById('recording-playback-panel');
               if (playbackPanel) {
@@ -3471,7 +3529,13 @@
     }
 
     // 播放器控制項初始化註冊
+        const recordingShareButton = document.getElementById('recording-share-button');
+    if (recordingShareButton) {
+      recordingShareButton.addEventListener('click', shareCurrentWav);
+    }
+
     function initRecordingPlayerControls() {
+
       const player = document.getElementById('recording-player');
       const playBtn = document.getElementById('btn-player-play');
       const playIcon = document.getElementById('player-play-icon');
@@ -3894,7 +3958,7 @@
       volume: 0.8,
       soundType: 'claves',
       useAccent: true,
-      useFlash: true
+      useFlash: false,
     };
 
     let metroAudioCtx = null;
