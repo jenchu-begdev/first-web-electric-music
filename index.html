@@ -1781,7 +1781,6 @@
               max="100" 
               value="0" 
               step="1"
-              aria-label="音軌播放進度，使用左右或上下方向鍵可快轉或倒轉 5 秒"
               aria-valuemin="0"
               aria-valuemax="100"
               aria-valuenow="0"
@@ -3563,7 +3562,7 @@ function canShareWavFile(blob) {
         if (progressSlider) {
           progressSlider.value = Math.floor(current);
           progressSlider.setAttribute('aria-valuenow', Math.floor(current));
-          progressSlider.setAttribute('aria-valuetext', `${formatTime(current)} / ${formatTime(total)}`);
+          progressSlider.setAttribute('aria-valuetext', `音軌位置：${formatTime(current)}，共${formatTime(total)}，使用方向鍵可快轉或倒轉 5 秒`);
         }
       });
 
@@ -3571,10 +3570,11 @@ function canShareWavFile(blob) {
       player.addEventListener('loadedmetadata', () => {
         const total = player.duration || 0;
         if (timeTotal) timeTotal.textContent = formatTime(total);
-        if (progressSlider) {
-          progressSlider.max = Math.floor(total);
-          progressSlider.setAttribute('aria-valuemax', Math.floor(total));
-        }
+if (progressSlider) {
+  progressSlider.max = Math.floor(total);
+  progressSlider.setAttribute('aria-valuemax', Math.floor(total));
+  progressSlider.setAttribute('aria-valuetext', `音軌位置：0:00，共${formatTime(total)}，使用左右或上下方向鍵可快轉或倒轉 5 秒`);
+      }
       });
 
       // 進度條拉動變更時間
